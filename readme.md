@@ -8,5 +8,5 @@ Lovingly split by [Tighten Co.](http://tighten.co/), with a kick in the butt to 
 
 ## FAQ
  - **Will this develop independently from Illuminate's Collections?** No. Right now it's split manually, but the goal is for it shortly to be split automatically to keep it in sync with Laravel's Collections, even mirroring the release numbers.
- - **Why isn't this just under the Illuminate namespace?** Because that would require adding a lot of complexity to Illuminate\Support's internal structure. One day Taylor may choose to do that, but right now he hasn't. If he does, we'll deprecate this package and point to the core version.
+ - **Why isn't this just under the Illuminate namespace?** Because that would require adding a lot of complexity and duplication to Illuminate\Support's internal structure. One day Taylor may choose to do that, but right now he hasn't and doesn't have any immediate plans to do so. If he does, we'll deprecate this package and point to the core version.
  - **Why not just use an array?** What a great question. [Here's the answer.](http://adamwathan.me/refactoring-to-collections/)
