@@ -100,7 +100,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     public function contains($key, $value = null)
     {
         if (func_num_args() == 2) {
-            return $this->contains(function ($item) use ($key, $value) {
+            return $this->contains(function ($k, $item) use ($key, $value) {
                 return data_get($item, $key) == $value;
             });
         }
@@ -215,48 +215,28 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
      * Filter items by the given key value pair.
      *
      * @param  string  $key
-     * @param  mixed  $operator
      * @param  mixed  $value
+     * @param  bool  $strict
      * @return static
      */
-    public function where($key, $operator, $value = null)
+    public function where($key, $value, $strict = true)
     {
-        if (func_num_args() == 2) {
-            $value = $operator;
-
-            $operator = '=';
-        }
-
-        return $this->filter($this->operatorForWhere($key, $operator, $value));
+        return $this->filter(function ($item) use ($key, $value, $strict) {
+            return $strict ? data_get($item, $key) === $value
+                           : data_get($item, $key) == $value;
+        });
     }
 
     /**
-     * Get an operator checker callback.
+     * Filter items by the given key value pair using loose comparison.
      *
      * @param  string  $key
-     * @param  string  $operator
      * @param  mixed  $value
-     * @return \Closure
+     * @return static
      */
-    protected function operatorForWhere($key, $operator, $value)
+    public function whereLoose($key, $value)
     {
-        return function ($item) use ($key, $operator, $value) {
-            $retrieved = data_get($item, $key);
-
-            switch ($operator) {
-                default:
-                case '=':
-                case '==':  return $retrieved == $value;
-                case '!=':
-                case '<>':  return $retrieved != $value;
-                case '<':   return $retrieved < $value;
-                case '>':   return $retrieved > $value;
-                case '<=':  return $retrieved <= $value;
-                case '>=':  return $retrieved >= $value;
-                case '===': return $retrieved === $value;
-                case '!==': return $retrieved !== $value;
-            }
-        };
+        return $this->where($key, $value, false);
     }
 
     /**
@@ -267,7 +247,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
      * @param  bool  $strict
      * @return static
      */
-    public function whereIn($key, array $values, $strict = false)
+    public function whereIn($key, array $values, $strict = true)
     {
         return $this->filter(function ($item) use ($key, $values, $strict) {
             return in_array(data_get($item, $key), $values, $strict);
@@ -275,15 +255,15 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     }
 
     /**
-     * Filter items by the given key value pair using strict comparison.
+     * Filter items by the given key value pair using loose comparison.
      *
      * @param  string  $key
      * @param  array  $values
      * @return static
      */
-    public function whereInStrict($key, array $values)
+    public function whereInLoose($key, array $values)
     {
-        return $this->whereIn($key, $values, true);
+        return $this->whereIn($key, $values, false);
     }
 
     /**
@@ -497,6 +477,20 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     }
 
     /**
+     * Alias for the "pluck" method.
+     *
+     * @param  string  $value
+     * @param  string|null  $key
+     * @return static
+     *
+     * @deprecated since version 5.2. Use the "pluck" method directly.
+     */
+    public function lists($value, $key = null)
+    {
+        return $this->pluck($value, $key);
+    }
+
+    /**
      * Run a map over each of the items.
      *
      * @param  callable  $callback
@@ -557,6 +551,17 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     public function combine($values)
     {
         return new static(array_combine($this->all(), $this->getArrayableItems($values)));
+    }
+
+    /**
+     * Union the collection with the given items.
+     *
+     * @param  mixed  $items
+     * @return void
+     */
+    public function union($items)
+    {
+        return new static($this->items + $this->getArrayableItems($items));
     }
 
     /**
@@ -1016,7 +1021,6 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     {
         return array_map(function ($value) {
             return $value instanceof Arrayable ? $value->toArray() : $value;
-
         }, $this->items);
     }
 
