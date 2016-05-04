@@ -1,10 +1,12 @@
+![](https://raw.githubusercontent.com/tightenco/collect/master/collect-logo.png)
+
 # Collect - Illuminate Collections
 
 Import [Laravel's Collections](https://laravel.com/docs/collections) into non-Laravel packages easily, without needing to require the entire `Illuminate\Support` package. ([Why not pull `Illuminate\Support` in framework-agnostic packages](http://mattallan.org/2016/dont-use-illuminate-support/))
 
 Written by Taylor Otwell as a part of Laravel's [Illuminate/Support](https://github.com/illuminate/support) package, Collect is just the code from Support needed in order to use Collections on their own.
 
-Lovingly split by [Tighten Co.](http://tighten.co/), with a kick in the butt to finally do it from [@assertchris](https://github.com/assertchris).
+Lovingly split by Matt Stauffer for [Tighten Co.](http://tighten.co/), with a kick in the butt to finally do it from [@assertchris](https://github.com/assertchris).
 
 ## FAQ
  - **Will this develop independently from Illuminate's Collections?**  
