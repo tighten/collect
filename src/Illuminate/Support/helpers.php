@@ -71,3 +71,16 @@ if (! function_exists('data_get')) {
         return $target;
     }
 }
+
+if (! function_exists('with')) {
+    /**
+     * Return the given object. Useful for chaining.
+     *
+     * @param  mixed  $object
+     * @return mixed
+     */
+    function with($object)
+    {
+        return $object;
+    }
+}
