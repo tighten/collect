@@ -607,7 +607,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
      * @param  callable  $callback
      * @return static
      */
-    public function mapToAssoc(callable $callback)
+    public function mapWithKeys(callable $callback)
     {
         return $this->flatMap($callback);
     }
@@ -947,13 +947,9 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     {
         $items = $this->items;
 
-        $callback ? uasort($items, $callback) : uasort($items, function ($a, $b) {
-            if ($a == $b) {
-                return 0;
-            }
-
-            return ($a < $b) ? -1 : 1;
-        });
+        $callback
+            ? uasort($items, $callback)
+            : asort($items);
 
         return new static($items);
     }
@@ -1236,7 +1232,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
      */
     public function toBase()
     {
-        return is_subclass_of($this, self::class) ? new self($this) : $this;
+        return new self($this);
     }
 
     /**
