@@ -98,7 +98,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
         $values = with(isset($key) ? $this->pluck($key) : $this)
                     ->sort()->values();
 
-        $middle = (int) floor($count / 2);
+        $middle = (int) ($count / 2);
 
         if ($count % 2) {
             return $values->get($middle);
@@ -918,6 +918,23 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     public function slice($offset, $length = null)
     {
         return new static(array_slice($this->items, $offset, $length, true));
+    }
+
+    /**
+     * Split a collection into a certain number of groups.
+     *
+     * @param  int  $numberOfGroups
+     * @return static
+     */
+    public function split($numberOfGroups)
+    {
+        if ($this->isEmpty()) {
+            return new static;
+        }
+
+        $groupSize = ceil($this->count() / $numberOfGroups);
+
+        return $this->chunk($groupSize);
     }
 
     /**
