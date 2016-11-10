@@ -10,6 +10,15 @@ Written by Taylor Otwell as a part of Laravel's [Illuminate/Support](https://git
 
 Lovingly split by Matt Stauffer for [Tighten Co.](http://tighten.co/), with a kick in the butt to finally do it from [@assertchris](https://github.com/assertchris).
 
+## Installation
+
+With [Composer](https://getcomposer.org):
+
+```bash
+composer require tightenco/collect
+```
+
+
 ## FAQ
  - **Will this develop independently from Illuminate's Collections?**  
     No. Right now it's split manually, but the goal is for it shortly to be split automatically to keep it in sync with Laravel's Collections, even mirroring the release numbers.
