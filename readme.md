@@ -22,8 +22,7 @@ composer require tightenco/collect
 ## FAQ
  - **Will this develop independently from Illuminate's Collections?**  
     No. Right now it's split manually, but the goal is for it shortly to be split automatically to keep it in sync with Laravel's Collections, even mirroring the release numbers.
- - **Why isn't the package named illuminate/collect?**  
-    It's not an official Laravel package so we don't want to use the namespace reserved by Laravel packages.  
-    One day `Collection` may be extracted from `illuminate/support` to a new package. If so, we'll deprecate this package and point to the core version.
+ - **Why is the package `tightenco/collect` instead of `illuminate/collect`?**  
+    It's not an official Laravel package so we don't want to use the Packagist namespace reserved by Laravel packages. One day `Collection` may be extracted from `illuminate/support` to a new package. If so, we'll deprecate this package and point to the core version.
  - **Why not just use an array?**  
-    What a great question. [Tightenite Adam Wathan has a book about that.](http://adamwathan.me/refactoring-to-collections/)
+    What a great question. [Tighten alum Adam Wathan has a book about that.](http://adamwathan.me/refactoring-to-collections/)
