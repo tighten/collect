@@ -244,6 +244,32 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     }
 
     /**
+     * Dump the collection and end the script.
+     *
+     * @return void
+     */
+    public function dd()
+    {
+        die(var_dump($this->all()));
+    }
+
+    /**
+     * Dump the collection.
+     * @return $this
+     */
+    public function dump()
+    {
+        (new static(func_get_args()))
+            ->push($this)
+            ->each(function ($item) {
+                var_dump($item);
+            });
+
+        return $this;
+    }
+
+
+    /**
      * Get the items in the collection that are not present in the given items.
      *
      * @param  mixed  $items
