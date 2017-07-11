@@ -590,6 +590,18 @@ class SupportCollectionTest extends TestCase
         $this->assertEquals(['first_word' => 'Hello'], $c->intersect(new Collection(['first_world' => 'Hello', 'last_word' => 'World']))->all());
     }
 
+    public function testIntersectKeyNull()
+    {
+        $c = new Collection(['id' => 1, 'first_word' => 'Hello']);
+        $this->assertEquals([], $c->intersectKey(null)->all());
+    }
+
+    public function testIntersectKeyCollection()
+    {
+        $c = new Collection(['id' => 1, 'first_word' => 'Hello']);
+        $this->assertEquals(['first_word' => 'Hello'], $c->intersectKey(new Collection(['first_word' => 'Hello', 'last_word' => 'World']))->all());
+    }
+
     public function testUnique()
     {
         $c = new Collection(['Hello', 'World', 'World']);
@@ -1672,9 +1684,11 @@ class SupportCollectionTest extends TestCase
             return $item->foo;
         }));
         $this->assertEquals(15, $c->avg('foo'));
+        $this->assertEquals(15, $c->avg->foo);
 
         $c = new Collection([['foo' => 10], ['foo' => 20]]);
         $this->assertEquals(15, $c->avg('foo'));
+        $this->assertEquals(15, $c->avg->foo);
 
         $c = new Collection([1, 2, 3, 4, 5]);
         $this->assertEquals(3, $c->avg());
@@ -2101,6 +2115,38 @@ class SupportCollectionTest extends TestCase
 
         $collection->when(false, function ($collection) {
             return $collection->push('adam');
+        }, function ($collection) {
+            return $collection->push('taylor');
+        });
+
+        $this->assertSame(['michael', 'tom', 'taylor'], $collection->toArray());
+    }
+
+    public function testUnless()
+    {
+        $collection = new Collection(['michael', 'tom']);
+
+        $collection->unless(false, function ($collection) {
+            return $collection->push('caleb');
+        });
+
+        $this->assertSame(['michael', 'tom', 'caleb'], $collection->toArray());
+
+        $collection = new Collection(['michael', 'tom']);
+
+        $collection->unless(true, function ($collection) {
+            return $collection->push('caleb');
+        });
+
+        $this->assertSame(['michael', 'tom'], $collection->toArray());
+    }
+
+    public function testUnlessDefault()
+    {
+        $collection = new Collection(['michael', 'tom']);
+
+        $collection->unless(true, function ($collection) {
+            return $collection->push('caleb');
         }, function ($collection) {
             return $collection->push('taylor');
         });
