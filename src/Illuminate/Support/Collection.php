@@ -1070,7 +1070,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     }
 
     /**
-     * Get one or more items randomly from the collection.
+     * Get zero or more items randomly from the collection.
      *
      * @param  int|null  $amount
      * @return mixed
@@ -1079,6 +1079,10 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
      */
     public function random($amount = null)
     {
+        if ($amount === 0) {
+            return new static;
+        }
+
         if (($requested = $amount ?: 1) > ($count = $this->count())) {
             throw new InvalidArgumentException(
                 "You requested {$requested} items, but there are only {$count} items in the collection."

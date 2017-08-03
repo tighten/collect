@@ -911,6 +911,10 @@ class SupportCollectionTest extends TestCase
     {
         $data = new Collection([1, 2, 3, 4, 5, 6]);
 
+        $random = $data->random(0);
+        $this->assertInstanceOf(Collection::class, $random);
+        $this->assertCount(0, $random);
+
         $random = $data->random(1);
         $this->assertInstanceOf(Collection::class, $random);
         $this->assertCount(1, $random);
@@ -918,6 +922,15 @@ class SupportCollectionTest extends TestCase
         $random = $data->random(3);
         $this->assertInstanceOf(Collection::class, $random);
         $this->assertCount(3, $random);
+    }
+
+    public function testRandomOnEmptyCollection()
+    {
+        $data = new Collection();
+
+        $random = $data->random(0);
+        $this->assertInstanceOf(Collection::class, $random);
+        $this->assertCount(0, $random);
     }
 
     public function testRandomWithoutArgument()
