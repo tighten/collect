@@ -21,7 +21,8 @@
             "src/Illuminate/Support/helpers.php"
         ],
         "psr-4": {
-            "Illuminate\\": "src/Illuminate"
+            "Illuminate\\": "src/Illuminate",
+            "TightenCo\\": "src/TightenCo"
         }
     },
     "minimum-stability": "dev",
