@@ -18,10 +18,10 @@
     },
     "autoload": {
         "files": [
-            "src/Illuminate/Support/helpers.php"
+            "src/TightenCo/Support/helpers.php",
         ],
         "psr-4": {
-            "Illuminate\\": "src/Illuminate"
+            "TightenCo\\": "src/TightenCo"
         }
     },
     "minimum-stability": "dev",

@@ -1,16 +1,16 @@
 <?php
 
-namespace Illuminate\Support;
+namespace TightenCo\Support;
 
 /**
- * @mixin \Illuminate\Support\Collection
+ * @mixin \TightenCo\Support\Collection
  */
 class HigherOrderCollectionProxy
 {
     /**
      * The collection being operated on.
      *
-     * @var \Illuminate\Support\Collection
+     * @var \TightenCo\Support\Collection
      */
     protected $collection;
 
@@ -24,7 +24,7 @@ class HigherOrderCollectionProxy
     /**
      * Create a new proxy instance.
      *
-     * @param  \Illuminate\Support\Collection  $collection
+     * @param  \TightenCo\Support\Collection  $collection
      * @param  string  $method
      * @return void
      */

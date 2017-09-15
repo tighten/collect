@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Support;
+namespace TightenCo\Support;
 
 use Countable;
 use Exception;
@@ -10,10 +10,10 @@ use ArrayIterator;
 use CachingIterator;
 use JsonSerializable;
 use IteratorAggregate;
-use Illuminate\Support\Debug\Dumper;
-use Illuminate\Support\Traits\Macroable;
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Contracts\Support\Arrayable;
+use TightenCo\Support\Debug\Dumper;
+use TightenCo\Support\Traits\Macroable;
+use TightenCo\Contracts\Support\Jsonable;
+use TightenCo\Contracts\Support\Arrayable;
 
 class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate, Jsonable, JsonSerializable
 {
@@ -1616,7 +1616,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     /**
      * Get a base Support collection instance from this collection.
      *
-     * @return \Illuminate\Support\Collection
+     * @return \TightenCo\Support\Collection
      */
     public function toBase()
     {
