@@ -1,12 +1,12 @@
 <?php
 
 $aliases = [
-    TightenCo\Contracts\Support\Arrayable::class => Illuminate\Contracts\Support\Arrayable::class,
-    TightenCo\Contracts\Support\Jsonable::class => Illuminate\Contracts\Support\Jsonable::class,
-    TightenCo\Support\Traits\Macroable::class => Illuminate\Support\Traits\Macroable::class,
-    TightenCo\Support\Arr::class => Illuminate\Support\Arr::class,
-    TightenCo\Support\Collection::class => Illuminate\Support\Collection::class,
-    TightenCo\Support\HigherOrderCollectionProxy::class => Illuminate\Support\HigherOrderCollectionProxy::class,
+    Tightenco\Contracts\Support\Arrayable::class => Illuminate\Contracts\Support\Arrayable::class,
+    Tightenco\Contracts\Support\Jsonable::class => Illuminate\Contracts\Support\Jsonable::class,
+    Tightenco\Support\Traits\Macroable::class => Illuminate\Support\Traits\Macroable::class,
+    Tightenco\Support\Arr::class => Illuminate\Support\Arr::class,
+    Tightenco\Support\Collection::class => Illuminate\Support\Collection::class,
+    Tightenco\Support\HigherOrderCollectionProxy::class => Illuminate\Support\HigherOrderCollectionProxy::class,
 ];
 
 foreach ($aliases as $tighten => $illuminate) {

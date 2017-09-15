@@ -1,16 +1,16 @@
 <?php
 
-namespace TightenCo\Support;
+namespace Tightenco\Support;
 
 /**
- * @mixin \TightenCo\Support\Collection
+ * @mixin \Tightenco\Support\Collection
  */
 class HigherOrderCollectionProxy
 {
     /**
      * The collection being operated on.
      *
-     * @var \TightenCo\Support\Collection
+     * @var \Tightenco\Support\Collection
      */
     protected $collection;
 
@@ -24,7 +24,7 @@ class HigherOrderCollectionProxy
     /**
      * Create a new proxy instance.
      *
-     * @param  \TightenCo\Support\Collection  $collection
+     * @param  \Tightenco\Support\Collection  $collection
      * @param  string  $method
      * @return void
      */

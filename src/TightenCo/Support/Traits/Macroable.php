@@ -1,12 +1,12 @@
 <?php
 
-namespace TightenCo\Support\Traits;
+namespace Tightenco\Support\Traits;
 
 use Closure;
 use ReflectionClass;
 use ReflectionMethod;
 use BadMethodCallException;
-use TightenCo\Contracts\Support\Macro;
+use Tightenco\Contracts\Support\Macro;
 
 trait Macroable
 {

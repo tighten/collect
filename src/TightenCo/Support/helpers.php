@@ -1,7 +1,7 @@
 <?php
 
-use TightenCo\Support\Arr;
-use TightenCo\Support\Collection;
+use Tightenco\Support\Arr;
+use Tightenco\Support\Collection;
 
 if (! function_exists('array_wrap')) {
     /**
@@ -21,7 +21,7 @@ if (! function_exists('collect')) {
      * Create a collection from the given value.
      *
      * @param  mixed  $value
-     * @return \TightenCo\Support\Collection
+     * @return \Tightenco\Support\Collection
      */
     function collect($value = null)
     {
