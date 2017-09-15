@@ -19,6 +19,7 @@
     "autoload": {
         "files": [
             "src/TightenCo/Support/helpers.php",
+            "src/TightenCo/Support/alias.php"
         ],
         "psr-4": {
             "TightenCo\\": "src/TightenCo"
