@@ -798,6 +798,11 @@ class SupportCollectionTest extends TestCase
         $data = $data->sortBy('name');
 
         $this->assertEquals([['name' => 'dayle'], ['name' => 'taylor']], array_values($data->all()));
+
+        $data = new Collection([['name' => 'taylor'], ['name' => 'dayle']]);
+        $data = $data->sortBy('name', SORT_STRING);
+
+        $this->assertEquals([['name' => 'dayle'], ['name' => 'taylor']], array_values($data->all()));
     }
 
     public function testSortByAlwaysReturnsAssoc()
