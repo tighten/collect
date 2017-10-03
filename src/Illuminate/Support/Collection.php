@@ -2,6 +2,7 @@
 
 namespace Illuminate\Support;
 
+use stdClass;
 use Countable;
 use Exception;
 use ArrayAccess;
@@ -217,7 +218,9 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     {
         if (func_num_args() == 1) {
             if ($this->useAsCallable($key)) {
-                return ! is_null($this->first($key));
+                $placeholder = new stdClass;
+
+                return $this->first($key, $placeholder) !== $placeholder;
             }
 
             return in_array($key, $this->items);
@@ -851,6 +854,25 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     }
 
     /**
+     * Run a dictionary map over the items.
+     *
+     * The callback should return an associative array with a single key/value pair.
+     *
+     * @param  callable  $callback
+     * @return static
+     */
+    public function mapToDictionary(callable $callback)
+    {
+        $dictionary = $this->map($callback)->reduce(function ($groups, $pair) {
+            $groups[key($pair)][] = reset($pair);
+
+            return $groups;
+        }, []);
+
+        return new static($dictionary);
+    }
+
+    /**
      * Run a grouping map over the items.
      *
      * The callback should return an associative array with a single key/value pair.
@@ -860,13 +882,9 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
      */
     public function mapToGroups(callable $callback)
     {
-        $groups = $this->map($callback)->reduce(function ($groups, $pair) {
-            $groups[key($pair)][] = reset($pair);
+        $groups = $this->mapToDictionary($callback);
 
-            return $groups;
-        }, []);
-
-        return (new static($groups))->map([$this, 'make']);
+        return $groups->map([$this, 'make']);
     }
 
     /**
@@ -1340,7 +1358,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
      */
     public function sortBy($callback, $options = SORT_REGULAR, $descending = false)
     {
-        list($values, $results) = [[], []];
+        $results = [];
 
         $callback = $this->valueRetriever($callback);
 
@@ -1348,19 +1366,16 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
         // function which we were given. Then, we will sort the returned values and
         // and grab the corresponding values for the sorted keys from this array.
         foreach ($this->items as $key => $value) {
-            $values[] = $callback($value, $key);
+            $results[$key] = $callback($value, $key);
         }
 
-        $keys = array_keys($this->items);
-
-        $order = $descending ? SORT_DESC : SORT_ASC;
-
-        array_multisort($values, $order, $options, $keys, $order);
+        $descending ? arsort($results, $options)
+            : asort($results, $options);
 
         // Once we have sorted all of the keys in the array, we will loop through them
         // and grab the corresponding model so we can set the underlying items list
         // to the sorted version. Then we'll just return the collection instance.
-        foreach ($keys as $key) {
+        foreach (array_keys($results) as $key) {
             $results[$key] = $this->items[$key];
         }
 
