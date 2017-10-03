@@ -805,45 +805,6 @@ class SupportCollectionTest extends TestCase
         $this->assertEquals([['name' => 'dayle'], ['name' => 'taylor']], array_values($data->all()));
     }
 
-    public function testSortByMaintainsOriginalOrderOfItemsWithIdenticalValues()
-    {
-        $data = new Collection([['name' => 'taylor'], ['name' => 'dayle'], ['name' => 'dayle']]);
-
-        $data = $data->sortBy('name');
-
-        $this->assertEquals([['name' => 'dayle'], ['name' => 'dayle'], ['name' => 'taylor']], array_values($data->all()));
-        $this->assertEquals([1, 2, 0], $data->keys()->all());
-    }
-
-    public function testSortByStringMaintainsOriginalOrderOfItemsWithIdenticalValues()
-    {
-        $data = new Collection([['name' => 'taylor'], ['name' => 'dayle'], ['name' => 'dayle']]);
-
-        $data = $data->sortBy('name', SORT_STRING);
-
-        $this->assertEquals([['name' => 'dayle'], ['name' => 'dayle'], ['name' => 'taylor']], array_values($data->all()));
-        $this->assertEquals([1, 2, 0], $data->keys()->all());
-    }
-
-    public function testSortByNumericMaintainsOriginalOrderOfItemsWithIdenticalValues()
-    {
-        $data = new Collection([['name' => '2'], ['name' => '1'], ['name' => '1']]);
-        $data = $data->sortBy('name', SORT_NUMERIC);
-
-        $this->assertEquals([['name' => '1'], ['name' => '1'], ['name' => '2']], array_values($data->all()));
-        $this->assertEquals([1, 2, 0], $data->keys()->all());
-    }
-
-    public function testSortByNaturalMaintainsOriginalOrderOfItemsWithIdenticalValues()
-    {
-        $data = new Collection([['name' => 'img10.png'], ['name' => 'img1.png'], ['name' => 'img1.png']]);
-
-        $data = $data->sortBy('name', SORT_NATURAL);
-
-        $this->assertEquals([['name' => 'img1.png'], ['name' => 'img1.png'], ['name' => 'img10.png']], array_values($data->all()));
-        $this->assertEquals([1, 2, 0], $data->keys()->all());
-    }
-
     public function testSortByAlwaysReturnsAssoc()
     {
         $data = new Collection(['a' => 'taylor', 'b' => 'dayle']);
@@ -1296,6 +1257,35 @@ class SupportCollectionTest extends TestCase
         $this->assertEquals(['programming', 'basketball', 'music', 'powerlifting'], $data->all());
     }
 
+    public function testMapToDictionary()
+    {
+        $data = new Collection([
+            ['id' => 1, 'name' => 'A'],
+            ['id' => 2, 'name' => 'B'],
+            ['id' => 3, 'name' => 'C'],
+            ['id' => 4, 'name' => 'B'],
+        ]);
+
+        $groups = $data->mapToDictionary(function ($item, $key) {
+            return [$item['name'] => $item['id']];
+        });
+
+        $this->assertInstanceOf(Collection::class, $groups);
+        $this->assertEquals(['A' => [1], 'B' => [2, 4], 'C' => [3]], $groups->toArray());
+        $this->assertInternalType('array', $groups['A']);
+    }
+
+    public function testMapToDictionaryWithNumericKeys()
+    {
+        $data = new Collection([1, 2, 3, 2, 1]);
+
+        $groups = $data->mapToDictionary(function ($item, $key) {
+            return [$item => $key];
+        });
+
+        $this->assertEquals([1 => [0, 4], 2 => [1, 3], 3 => [2]], $groups->toArray());
+    }
+
     public function testMapToGroups()
     {
         $data = new Collection([
@@ -1600,6 +1590,14 @@ class SupportCollectionTest extends TestCase
 
         $this->assertTrue($c->contains->a);
         $this->assertFalse($c->contains->b);
+
+        $c = new Collection([
+            null, 1, 2,
+        ]);
+
+        $this->assertTrue($c->contains(function ($value) {
+            return is_null($value);
+        }));
     }
 
     public function testContainsStrict()
