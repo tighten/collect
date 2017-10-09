@@ -41,7 +41,6 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
      * Create a new collection.
      *
      * @param  mixed  $items
-     * @return void
      */
     public function __construct($items = [])
     {
@@ -151,8 +150,8 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
             return;
         }
 
-        $values = (isset($key) ? $this->pluck($key) : $this)
-                    ->sort()->values();
+        $values = (isset($key) ? $this->pluck($key) : $this);
+        $values->sort()->values();
 
         $middle = (int) ($count / 2);
 
