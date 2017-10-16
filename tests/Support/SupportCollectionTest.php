@@ -307,6 +307,16 @@ class SupportCollectionTest extends TestCase
         })->all());
     }
 
+    public function testHigherOrderKeyBy()
+    {
+        $c = new Collection([
+            ['id' => 'id1', 'name' => 'first'],
+            ['id' => 'id2', 'name' => 'second'],
+        ]);
+
+        $this->assertEquals(['id1' => 'first', 'id2' => 'second'], $c->keyBy->id->map->name->all());
+    }
+
     public function testHigherOrderFilter()
     {
         $c = new Collection([
@@ -1758,6 +1768,7 @@ class SupportCollectionTest extends TestCase
     public function testPaginate()
     {
         $c = new Collection(['one', 'two', 'three', 'four']);
+        $this->assertEquals(['one', 'two'], $c->forPage(0, 2)->all());
         $this->assertEquals(['one', 'two'], $c->forPage(1, 2)->all());
         $this->assertEquals([2 => 'three', 3 => 'four'], $c->forPage(2, 2)->all());
         $this->assertEquals([], $c->forPage(3, 2)->all());
