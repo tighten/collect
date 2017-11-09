@@ -24,6 +24,9 @@
             "Illuminate\\": "src/Illuminate"
         }
     },
+    "suggest": {
+        "symfony/var-dumper": "Required to prettify dd() and dump() (~3.3)."
+    },
     "minimum-stability": "dev",
     "prefer-stable": true
 }
