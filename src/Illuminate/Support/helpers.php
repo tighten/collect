@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Debug\Dumper;
 
 if (! function_exists('array_wrap')) {
     /**
@@ -95,5 +96,21 @@ if (! function_exists('with')) {
     function with($object)
     {
         return $object;
+    }
+}
+
+if (! function_exists('dd')) {
+    /**
+     * Dump the passed variables and end the script.
+     *
+     * @param  mixed
+     * @return void
+     */
+    function dd(...$args)
+    {
+        foreach ($args as $x) {
+            (new Dumper)->dump($x);
+        }
+        die(1);
     }
 }
