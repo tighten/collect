@@ -45,6 +45,19 @@ class SupportCollectionTest extends TestCase
         $this->assertEquals('default', $result);
     }
 
+    public function testFirstWhere()
+    {
+        $data = new Collection([
+            ['material' => 'paper', 'type' => 'book'],
+            ['material' => 'rubber', 'type' => 'gasket'],
+        ]);
+
+        $this->assertEquals('book', $data->firstWhere('material', 'paper')['type']);
+        $this->assertEquals('gasket', $data->firstWhere('material', 'rubber')['type']);
+        $this->assertNull($data->firstWhere('material', 'nonexistant'));
+        $this->assertNull($data->firstWhere('nonexistant', 'key'));
+    }
+
     public function testLastReturnsLastItemInCollection()
     {
         $c = new Collection(['foo', 'bar']);
@@ -123,10 +136,10 @@ class SupportCollectionTest extends TestCase
         $this->assertSame([false], $collection->all());
 
         $collection = new Collection(null);
-        $this->assertSame([], $collection->all());
+        $this->assertEmpty($collection->all());
 
         $collection = new Collection;
-        $this->assertSame([], $collection->all());
+        $this->assertEmpty($collection->all());
     }
 
     public function testGetArrayableItems()
@@ -402,10 +415,52 @@ class SupportCollectionTest extends TestCase
             $c->where('v', $object)->values()->all()
         );
 
+        $this->assertEquals(
+            [['v' => 1], ['v' => 2], ['v' => 3], ['v' => '3'], ['v' => 4]],
+            $c->where('v', '<>', $object)->values()->all()
+        );
+
+        $this->assertEquals(
+            [['v' => 1], ['v' => 2], ['v' => 3], ['v' => '3'], ['v' => 4]],
+            $c->where('v', '!=', $object)->values()->all()
+        );
+
+        $this->assertEquals(
+            [['v' => 1], ['v' => 2], ['v' => 3], ['v' => '3'], ['v' => 4]],
+            $c->where('v', '!==', $object)->values()->all()
+        );
+
+        $this->assertEquals(
+            [],
+            $c->where('v', '>', $object)->values()->all()
+        );
+
         $c = new Collection([['v' => 1], ['v' => $object]]);
         $this->assertEquals(
             [['v' => $object]],
             $c->where('v', $object)->values()->all()
+        );
+
+        $this->assertEquals(
+            [['v' => 1], ['v' => $object]],
+            $c->where('v', '<>', null)->values()->all()
+        );
+
+        $this->assertEquals(
+            [],
+            $c->where('v', '<', null)->values()->all()
+        );
+
+        $c = new Collection([['v' => 1], ['v' => new \Illuminate\Support\HtmlString('hello')]]);
+        $this->assertEquals(
+            [['v' => new \Illuminate\Support\HtmlString('hello')]],
+            $c->where('v', 'hello')->values()->all()
+        );
+
+        $c = new Collection([['v' => 1], ['v' => 'hello']]);
+        $this->assertEquals(
+            [['v' => 'hello']],
+            $c->where('v', new \Illuminate\Support\HtmlString('hello'))->values()->all()
         );
     }
 
@@ -918,9 +973,11 @@ class SupportCollectionTest extends TestCase
 
         $this->assertEquals(['first' => 'Taylor'], $data->except(['last', 'email', 'missing'])->all());
         $this->assertEquals(['first' => 'Taylor'], $data->except('last', 'email', 'missing')->all());
+        $this->assertEquals(['first' => 'Taylor'], $data->except(collect(['last' => 'Otwell', 'email' => 'taylorotwell@gmail.com', 'missing']))->all());
 
         $this->assertEquals(['first' => 'Taylor', 'email' => 'taylorotwell@gmail.com'], $data->except(['last'])->all());
         $this->assertEquals(['first' => 'Taylor', 'email' => 'taylorotwell@gmail.com'], $data->except('last')->all());
+        $this->assertEquals(['first' => 'Taylor', 'email' => 'taylorotwell@gmail.com'], $data->except(collect(['last' => 'Otwell']))->all());
     }
 
     public function testPluckWithArrayAndObjectValues()
@@ -2306,8 +2363,8 @@ class SupportCollectionTest extends TestCase
     {
         $collection = new Collection(['michael', 'tom']);
 
-        $collection->when(true, function ($collection) {
-            return $collection->push('adam');
+        $collection->when('adam', function ($collection, $newName) {
+            return $collection->push($newName);
         });
 
         $this->assertSame(['michael', 'tom', 'adam'], $collection->toArray());
