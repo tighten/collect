@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Support;
+namespace Tightenco\Support;
 
 use stdClass;
 use Countable;
@@ -11,10 +11,10 @@ use ArrayIterator;
 use CachingIterator;
 use JsonSerializable;
 use IteratorAggregate;
-use Illuminate\Support\Debug\Dumper;
-use Illuminate\Support\Traits\Macroable;
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Contracts\Support\Arrayable;
+use Tightenco\Support\Debug\Dumper;
+use Tightenco\Support\Traits\Macroable;
+use Tightenco\Contracts\Support\Jsonable;
+use Tightenco\Contracts\Support\Arrayable;
 
 class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate, Jsonable, JsonSerializable
 {
@@ -385,7 +385,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     /**
      * Get all items except for those with the specified keys.
      *
-     * @param  \Illuminate\Support\Collection|mixed  $keys
+     * @param  \Tightenco\Support\Collection|mixed  $keys
      * @return static
      */
     public function except($keys)
@@ -1659,7 +1659,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     /**
      * Get a base Support collection instance from this collection.
      *
-     * @return \Illuminate\Support\Collection
+     * @return \Tightenco\Support\Collection
      */
     public function toBase()
     {

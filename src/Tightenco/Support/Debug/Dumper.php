@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Support\Debug;
+namespace Tightenco\Support\Debug;
 
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
