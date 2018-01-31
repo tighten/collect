@@ -1,6 +1,6 @@
 <?php
 
-namespace Tightenco\Support\Traits;
+namespace Tightenco\Collect\Support\Traits;
 
 use Closure;
 use ReflectionClass;

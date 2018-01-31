@@ -22,7 +22,7 @@ if (! function_exists('collect')) {
      * Create a collection from the given value.
      *
      * @param  mixed  $value
-     * @return \Tightenco\Support\Collection
+     * @return \Tightenco\Collect\Support\Collection
      */
     function collect($value = null)
     {
