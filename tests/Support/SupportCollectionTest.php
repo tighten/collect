@@ -1,6 +1,6 @@
 <?php
 
-namespace Tightenco\Tests\Support;
+namespace Tightenco\Collect\Tests\Support;
 
 use stdClass;
 use ArrayAccess;
@@ -8,9 +8,9 @@ use Mockery as m;
 use ReflectionClass;
 use JsonSerializable;
 use PHPUnit\Framework\TestCase;
-use Tightenco\Support\Collection;
-use Tightenco\Contracts\Support\Jsonable;
-use Tightenco\Contracts\Support\Arrayable;
+use Tightenco\Collect\Support\Collection;
+use Tightenco\Collect\Contracts\Support\Jsonable;
+use Tightenco\Collect\Contracts\Support\Arrayable;
 
 class SupportCollectionTest extends TestCase
 {
@@ -173,9 +173,9 @@ class SupportCollectionTest extends TestCase
 
     public function testToArrayCallsToArrayOnEachItemInCollection()
     {
-        $item1 = m::mock('Tightenco\Contracts\Support\Arrayable');
+        $item1 = m::mock('Tightenco\Collect\Contracts\Support\Arrayable');
         $item1->shouldReceive('toArray')->once()->andReturn('foo.array');
-        $item2 = m::mock('Tightenco\Contracts\Support\Arrayable');
+        $item2 = m::mock('Tightenco\Collect\Contracts\Support\Arrayable');
         $item2->shouldReceive('toArray')->once()->andReturn('bar.array');
         $c = new Collection([$item1, $item2]);
         $results = $c->toArray();
@@ -187,7 +187,7 @@ class SupportCollectionTest extends TestCase
     {
         $item1 = m::mock('JsonSerializable');
         $item1->shouldReceive('jsonSerialize')->once()->andReturn('foo.json');
-        $item2 = m::mock('Tightenco\Contracts\Support\Arrayable');
+        $item2 = m::mock('Tightenco\Collect\Contracts\Support\Arrayable');
         $item2->shouldReceive('toArray')->once()->andReturn('bar.array');
         $c = new Collection([$item1, $item2]);
         $results = $c->jsonSerialize();

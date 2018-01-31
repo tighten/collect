@@ -23,7 +23,7 @@
             "src/Tightenco/Support/alias.php"
         ],
         "psr-4": {
-            "Tightenco\\": "src/Tightenco"
+            "Tightenco\\Collect\\": "src/Tightenco"
         }
     },
     "minimum-stability": "dev",
