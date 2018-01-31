@@ -1,13 +1,13 @@
 <?php
 
-namespace Tightenco\Tests\Support;
+namespace Tightenco\Collect\Tests\Support;
 
 use stdClass;
 use ArrayObject;
-use Tightenco\Support\Arr;
-use Tightenco\Support\Carbon;
+use Tightenco\Collect\Support\Arr;
+use Tightenco\Collect\Support\Carbon;
 use PHPUnit\Framework\TestCase;
-use Tightenco\Support\Collection;
+use Tightenco\Collect\Support\Collection;
 
 class SupportArrTest extends TestCase
 {

@@ -54,7 +54,8 @@ function prepareEnvironment()
     vendor=laravel
     project=framework
     oldNamespace='Illuminate'
-    newNamespace='Tightenco'
+    newNamespace='Tightenco\\Collect'
+    newDir='Collect'
     repository=https://github.com/$vendor/$project.git
 
     getCurrentVersionFromGitHub
@@ -64,11 +65,11 @@ function prepareEnvironment()
     collectionZip=${rootDir}/$project-${collectionVersion}.zip
     collectionZipUrl=https://github.com/$vendor/$project/archive/v${collectionVersion}.zip
     oldNamespaceDir=${repositorySrcDir}/${oldNamespace}
-    newNamespaceDir=${baseDir}/${newNamespace}
+    newNamespaceDir=${baseDir}/${newDir}
     testsDir=${rootDir}/tests
     testsBaseUrl=https://raw.githubusercontent.com/${vendor}/${project}/v${collectionVersion}/tests
     stubsDir=${rootDir}/stubs
-    aliasFile=${baseDir}/${newNamespace}/Support/alias.php
+    aliasFile=${baseDir}/${newDir}/Support/alias.php
 carriageReturn="
 "
 
@@ -104,8 +105,8 @@ carriageReturn="
     )
 
     stubs=(
-        'src/Tightenco/Support/helpers.php'
-        'src/Tightenco/Support/alias.php'
+        'src/Collect/Support/helpers.php'
+        'src/Collect/Support/alias.php'
         'tests/bootstrap.php'
     )
 }

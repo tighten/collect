@@ -1,8 +1,8 @@
 <?php
 
-namespace Tightenco\Tests\Support;
+namespace Tightenco\Collect\Tests\Support;
 
-use Tightenco\Support\Str;
+use Tightenco\Collect\Support\Str;
 use PHPUnit\Framework\TestCase;
 
 class SupportStrTest extends TestCase

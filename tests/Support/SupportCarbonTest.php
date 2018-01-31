@@ -1,17 +1,17 @@
 <?php
 
-namespace Tightenco\Tests\Support;
+namespace Tightenco\Collect\Tests\Support;
 
 use DateTime;
 use DateTimeInterface;
-use Tightenco\Support\Carbon;
+use Tightenco\Collect\Support\Carbon;
 use PHPUnit\Framework\TestCase;
 use Carbon\Carbon as BaseCarbon;
 
 class SupportCarbonTest extends TestCase
 {
     /**
-     * @var \Tightenco\Support\Carbon
+     * @var \Tightenco\Collect\Support\Carbon
      */
     protected $now;
 
@@ -92,5 +92,25 @@ class SupportCarbonTest extends TestCase
             'timezone_type' => 3,
             'timezone' => 'UTC',
         ], $this->now->jsonSerialize());
+    }
+
+    public function testSetStateReturnsCorrectType()
+    {
+        $carbon = Carbon::__set_state([
+            'date' => '2017-06-27 13:14:15.000000',
+            'timezone_type' => 3,
+            'timezone' => 'UTC',
+        ]);
+
+        $this->assertInstanceOf(Carbon::class, $carbon);
+    }
+
+    public function testDeserializationOccursCorrectly()
+    {
+        $carbon = new Carbon('2017-06-27 13:14:15.000000');
+        $serialized = 'return '.var_export($carbon, true).';';
+        $deserialized = eval($serialized);
+
+        $this->assertInstanceOf(Carbon::class, $deserialized);
     }
 }

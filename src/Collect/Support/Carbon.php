@@ -1,10 +1,10 @@
 <?php
 
-namespace Tightenco\Support;
+namespace Tightenco\Collect\Support;
 
 use JsonSerializable;
 use Carbon\Carbon as BaseCarbon;
-use Tightenco\Support\Traits\Macroable;
+use Tightenco\Collect\Support\Traits\Macroable;
 
 class Carbon extends BaseCarbon implements JsonSerializable
 {
@@ -44,5 +44,16 @@ class Carbon extends BaseCarbon implements JsonSerializable
     public static function serializeUsing($callback)
     {
         static::$serializer = $callback;
+    }
+
+    /**
+     * Create a new Carbon instance based on the given state array.
+     *
+     * @param  array  $array
+     * @return static
+     */
+    public static function __set_state($array)
+    {
+        return static::instance(parent::__set_state($array));
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tightenco\Support;
+namespace Tightenco\Collect\Support;
 
 class HigherOrderTapProxy
 {

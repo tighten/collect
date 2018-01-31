@@ -1,9 +1,9 @@
 <?php
 
-namespace Tightenco\Tests\Support;
+namespace Tightenco\Collect\Tests\Support;
 
 use PHPUnit\Framework\TestCase;
-use Tightenco\Support\Traits\Macroable;
+use Tightenco\Collect\Support\Traits\Macroable;
 
 class SupportMacroableTest extends TestCase
 {

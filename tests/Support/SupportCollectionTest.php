@@ -330,6 +330,16 @@ class SupportCollectionTest extends TestCase
         $this->assertEquals(['id1' => 'first', 'id2' => 'second'], $c->keyBy->id->map->name->all());
     }
 
+    public function testHigherOrderUnique()
+    {
+        $c = new Collection([
+            ['id' => '1', 'name' => 'first'],
+            ['id' => '1', 'name' => 'second'],
+        ]);
+
+        $this->assertCount(1, $c->unique->id);
+    }
+
     public function testHigherOrderFilter()
     {
         $c = new Collection([
@@ -451,16 +461,16 @@ class SupportCollectionTest extends TestCase
             $c->where('v', '<', null)->values()->all()
         );
 
-        $c = new Collection([['v' => 1], ['v' => new \Tightenco\Support\HtmlString('hello')]]);
+        $c = new Collection([['v' => 1], ['v' => new \Tightenco\Collect\Support\HtmlString('hello')]]);
         $this->assertEquals(
-            [['v' => new \Tightenco\Support\HtmlString('hello')]],
+            [['v' => new \Tightenco\Collect\Support\HtmlString('hello')]],
             $c->where('v', 'hello')->values()->all()
         );
 
         $c = new Collection([['v' => 1], ['v' => 'hello']]);
         $this->assertEquals(
             [['v' => 'hello']],
-            $c->where('v', new \Tightenco\Support\HtmlString('hello'))->values()->all()
+            $c->where('v', new \Tightenco\Collect\Support\HtmlString('hello'))->values()->all()
         );
     }
 
@@ -978,6 +988,12 @@ class SupportCollectionTest extends TestCase
         $this->assertEquals(['first' => 'Taylor', 'email' => 'taylorotwell@gmail.com'], $data->except('last')->all());
     }
 
+    public function testExceptSelf()
+    {
+        $data = new Collection(['first' => 'Taylor', 'last' => 'Otwell']);
+        $this->assertEquals(['first' => 'Taylor', 'last' => 'Otwell'], $data->except($data)->all());
+    }
+
     public function testPluckWithArrayAndObjectValues()
     {
         $data = new Collection([(object) ['name' => 'taylor', 'email' => 'foo'], ['name' => 'dayle', 'email' => 'bar']]);
@@ -996,6 +1012,15 @@ class SupportCollectionTest extends TestCase
         $this->assertEquals(['foo', 'bar'], $data->pluck('email')->all());
     }
 
+    public function testHas()
+    {
+        $data = new Collection(['id' => 1, 'first' => 'Hello', 'second' => 'World']);
+        $this->assertTrue($data->has('first'));
+        $this->assertFalse($data->has('third'));
+        $this->assertTrue($data->has(['first', 'second']));
+        $this->assertFalse($data->has(['third', 'first']));
+    }
+
     public function testImplode()
     {
         $data = new Collection([['name' => 'taylor', 'email' => 'foo'], ['name' => 'dayle', 'email' => 'bar']]);
@@ -1012,6 +1037,20 @@ class SupportCollectionTest extends TestCase
         $data = new Collection(['taylor', 'dayle', 'shawn']);
         $data = $data->take(2);
         $this->assertEquals(['taylor', 'dayle'], $data->all());
+    }
+
+    public function testPut()
+    {
+        $data = new Collection(['name' => 'taylor', 'email' => 'foo']);
+        $data = $data->put('name', 'dayle');
+        $this->assertEquals(['name' => 'dayle', 'email' => 'foo'], $data->all());
+    }
+
+    public function testPutWithNoKey()
+    {
+        $data = new Collection(['taylor', 'shawn']);
+        $data = $data->put(null, 'dayle');
+        $this->assertEquals(['taylor', 'shawn', 'dayle'], $data->all());
     }
 
     public function testRandom()
