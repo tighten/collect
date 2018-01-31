@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "php": ">=7.0"
+        "php": ">=7.0",
+        "symfony/var-dumper": "~3.3"
     },
     "require-dev": {
         "mockery/mockery": "~1.0",
