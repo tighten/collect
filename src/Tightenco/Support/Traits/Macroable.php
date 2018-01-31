@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Support\Traits;
+namespace Tightenco\Support\Traits;
 
 use Closure;
 use ReflectionClass;

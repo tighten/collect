@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Support;
+namespace Tightenco\Contracts\Support;
 
 interface Jsonable
 {

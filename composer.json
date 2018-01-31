@@ -10,7 +10,8 @@
         }
     ],
     "require": {
-        "php": ">=7.0"
+        "php": ">=7.0",
+        "symfony/var-dumper": "~3.3"
     },
     "require-dev": {
         "mockery/mockery": "~1.0",
@@ -18,14 +19,12 @@
     },
     "autoload": {
         "files": [
-            "src/Illuminate/Support/helpers.php"
+            "src/Tightenco/Support/helpers.php",
+            "src/Tightenco/Support/alias.php"
         ],
         "psr-4": {
-            "Illuminate\\": "src/Illuminate"
+            "Tightenco\\": "src/Tightenco"
         }
-    },
-    "suggest": {
-        "symfony/var-dumper": "Required to prettify dd() and dump() (~3.3)."
     },
     "minimum-stability": "dev",
     "prefer-stable": true
