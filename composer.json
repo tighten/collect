@@ -11,7 +11,8 @@
     ],
     "require": {
         "php": ">=7.0",
-        "nesbot/carbon": "~1.20"
+        "nesbot/carbon": "~1.20",
+        "symfony/var-dumper": "~3.3"
     },
     "require-dev": {
         "mockery/mockery": "~1.0",
@@ -26,9 +27,6 @@
         "psr-4": {
             "Tightenco\\": "src/Tightenco"
         }
-    },
-    "suggest": {
-        "symfony/var-dumper": "Required to prettify dd() and dump() (~3.3)."
     },
     "scripts": {
         "test": [
