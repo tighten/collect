@@ -21,11 +21,11 @@
     },
     "autoload": {
         "files": [
-            "src/Tightenco/Support/helpers.php",
-            "src/Tightenco/Support/alias.php"
+            "src/Collect/Support/helpers.php",
+            "src/Collect/Support/alias.php"
         ],
         "psr-4": {
-            "Tightenco\\Collect\\": "src/Tightenco"
+            "Tightenco\\Collect\\": "src/Collect"
         }
     },
     "scripts": {
