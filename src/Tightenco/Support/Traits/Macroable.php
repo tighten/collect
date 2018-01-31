@@ -6,7 +6,6 @@ use Closure;
 use ReflectionClass;
 use ReflectionMethod;
 use BadMethodCallException;
-use Tightenco\Contracts\Support\Macro;
 
 trait Macroable
 {
