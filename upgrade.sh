@@ -78,22 +78,20 @@ carriageReturn="
         'Support/Arr'
         'Support/Carbon'
         'Support/HigherOrderCollectionProxy'
-        'Support/HigherOrderTapProxy'
         'Support/HtmlString'
-        'Support/Optional'
         'Support/Str'
         'Support/Debug/Dumper'
         'Support/Debug/HtmlDumper'
     )
 
     traits=(
-        'Support/Traits/Macroable.php'
+        'Support/Traits/Macroable'
     )
 
     contracts=(
-        'Contracts/Support/Arrayable.php'
-        'Contracts/Support/Jsonable.php'
-        'Contracts/Support/Htmlable.php'
+        'Contracts/Support/Arrayable'
+        'Contracts/Support/Jsonable'
+        'Contracts/Support/Htmlable'
     )
 
     tests=(
@@ -202,11 +200,11 @@ function copyContracts()
     echo "-- Copying contracts..."
 
     for contract in ${contracts[@]}; do
-        echo "Copying ${oldNamespaceDir}.php/${contract}..."
+        echo "Copying ${oldNamespaceDir}/${contract}.php..."
 
         mkdir -p $(dirname ${newNamespaceDir}/${contract})
 
-        cp ${oldNamespaceDir}/${contract} ${newNamespaceDir}/${contract}
+        cp ${oldNamespaceDir}/${contract}.php ${newNamespaceDir}/${contract}.php
     done
 }
 
@@ -218,11 +216,11 @@ function copyTraits()
     echo "-- Copying traits..."
 
     for trait in ${traits[@]}; do
-        echo "Copying ${oldNamespaceDir}.php/${trait}..."
+        echo "Copying ${oldNamespaceDir}/${trait}.php..."
 
         mkdir -p $(dirname ${newNamespaceDir}/${trait})
 
-        cp ${oldNamespaceDir}/${trait} ${newNamespaceDir}/${trait}
+        cp ${oldNamespaceDir}/${trait}.php ${newNamespaceDir}/${trait}.php
     done
 }
 
@@ -252,8 +250,16 @@ function fillAliases()
     indent='    '
     aliases='CARRIAGERETURN'
 
+    for contract in ${contracts[@]}; do
+        aliases="${aliases}${indent}${oldNamespace}/${contract}::class => ${newNamespace}/${contract}::class,CARRIAGERETURN"
+    done
+
     for class in ${classes[@]}; do
         aliases="${aliases}${indent}${oldNamespace}/${class}::class => ${newNamespace}/${class}::class,CARRIAGERETURN"
+    done
+
+    for trait in ${traits[@]}; do
+        aliases="${aliases}${indent}${oldNamespace}/${trait}::class => ${newNamespace}/${trait}::class,CARRIAGERETURN"
     done
 
     aliases=${aliases//\//\\\\}
@@ -310,7 +316,7 @@ function renameNamespace()
 }
 
 ##
- # Clenup dir
+ # Clean up dir
  #
 function cleanupDir()
 {
