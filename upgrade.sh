@@ -275,7 +275,7 @@ function getCurrentVersionFromGitHub()
 {
     echo Getting current version from $repository...
 
-    collectionVersion=$(git ls-remote $repository | grep tags/ | grep -v {} | cut -d \/ -f 3 | cut -d v -f 2 | sort --version-sort | tail -1)
+    collectionVersion=$(git ls-remote $repository | grep tags/ | grep -v {} | cut -d \/ -f 3 | cut -d v -f 2  | grep -v RC | grep -vi beta | sort -t. -k 1,1n -k 2,2n -k 3,3n| tail -1)
 
     echo Upgrading to $vendor/$project $collectionVersion
 }
