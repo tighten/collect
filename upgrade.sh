@@ -19,9 +19,12 @@ shopt -s dotglob
 ##
  # App
  #
+ 
 function main()
 {
     echo "Upgrading..."
+
+    checkDependencies
 
     prepareEnvironment $1
 
@@ -53,6 +56,19 @@ function main()
 }
 
 ##
+ # Check if all dependencies are available
+ #
+function checkDependencies()
+{
+    for dependency in ${dependencies[@]}; do
+        if ! [ -x "$(command -v ${dependency})" ]; then
+            echo "Error: ${dependency} is not installed." >&2
+            exit 1
+        fi
+    done
+}
+
+##
  # Prepare the environment
  #
 function prepareEnvironment()
@@ -68,6 +84,7 @@ function prepareEnvironment()
     oldNamespace='Illuminate'
     newNamespace='Tightenco\\Collect'
     newDir='Collect'
+    logFile=$(mktemp /tmp/collect-log.XXXXXX)
     repository=https://github.com/$vendor/$project.git
 
     getCurrentVersionFromGitHub
@@ -95,6 +112,10 @@ carriageReturn="
         'Support/Debug/HtmlDumper'
     )
 
+    excludeFromAliases=(
+        'Support/Carbon'
+    )
+
     traits=(
         'Support/Traits/Macroable'
     )
@@ -116,6 +137,12 @@ carriageReturn="
         'src/Collect/Support/helpers.php'
         'src/Collect/Support/alias.php'
         'tests/bootstrap.php'
+    )
+
+    dependencies=(
+        'wget'
+        'unzip'
+        'mktemp'
     )
 }
 
@@ -171,7 +198,9 @@ function downloadRepository()
 {
     echo "-- Downloading ${collectionZipUrl} to ${baseDir}"
 
-    wget ${collectionZipUrl} -O ${collectionZip} >/dev/null 2>&1
+    wget ${collectionZipUrl} -O ${collectionZip} >${logFile} 2>&1
+
+    handleErrors
 }
 
 ##
@@ -181,9 +210,11 @@ function extractZip()
 {
     echo "-- Extracting $project.zip..."
 
-    unzip ${collectionZip} -d ${rootDir} >/dev/null 2>&1
+    unzip ${collectionZip} -d ${rootDir} >${logFile} 2>&1
 
     rm ${collectionZip}
+
+    handleErrors
 }
 
 ##
@@ -265,7 +296,9 @@ function fillAliases()
     done
 
     for class in ${classes[@]}; do
-        aliases="${aliases}${indent}${oldNamespace}/${class}::class => ${newNamespace}/${class}::class,CARRIAGERETURN"
+        if [[ ! " ${excludeFromAliases[@]} " =~ " ${class} " ]]; then
+            aliases="${aliases}${indent}${oldNamespace}/${class}::class => ${newNamespace}/${class}::class,CARRIAGERETURN"
+        fi
     done
 
     for trait in ${traits[@]}; do
@@ -349,6 +382,18 @@ function runTests()
     composer install
 
     vendor/bin/phpunit
+}
+
+##
+ # Handle command errors
+ #
+function handleErrors()
+{
+    if [[ $? -ne 0 ]]; then
+        echo "FATAL ERROR: unable to download file"
+        cat ${logFile}
+        exit 1
+    fi
 }
 
 ##

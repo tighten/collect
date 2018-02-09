@@ -6,7 +6,6 @@ $aliases = [
     Illuminate\Contracts\Support\Htmlable::class => Tightenco\Collect\Contracts\Support\Htmlable::class,
     Illuminate\Support\Collection::class => Tightenco\Collect\Support\Collection::class,
     Illuminate\Support\Arr::class => Tightenco\Collect\Support\Arr::class,
-    Illuminate\Support\Carbon::class => Tightenco\Collect\Support\Carbon::class,
     Illuminate\Support\HigherOrderCollectionProxy::class => Tightenco\Collect\Support\HigherOrderCollectionProxy::class,
     Illuminate\Support\HtmlString::class => Tightenco\Collect\Support\HtmlString::class,
     Illuminate\Support\Debug\Dumper::class => Tightenco\Collect\Support\Debug\Dumper::class,
