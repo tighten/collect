@@ -8,6 +8,7 @@ shopt -s dotglob
 ##
  # App
  #
+ 
 function main()
 {
     echo "Upgrading..."
@@ -71,6 +72,7 @@ function prepareEnvironment()
     oldNamespace='Illuminate'
     newNamespace='Tightenco\\Collect'
     newDir='Collect'
+    logFile=$(mktemp /tmp/collect-log.XXXXXX)
     repository=https://github.com/$vendor/$project.git
 
     getCurrentVersionFromGitHub
@@ -128,6 +130,7 @@ carriageReturn="
     dependencies=(
         'wget'
         'unzip'
+        'mktemp'
     )
 }
 
@@ -183,7 +186,9 @@ function downloadRepository()
 {
     echo "-- Downloading ${collectionZipUrl} to ${baseDir}"
 
-    wget ${collectionZipUrl} -O ${collectionZip} >/dev/null 2>&1
+    wget ${collectionZipUrl} -O ${collectionZip} >${logFile} 2>&1
+
+    handleErrors
 }
 
 ##
@@ -193,9 +198,11 @@ function extractZip()
 {
     echo "-- Extracting $project.zip..."
 
-    unzip ${collectionZip} -d ${rootDir} >/dev/null 2>&1
+    unzip ${collectionZip} -d ${rootDir} >${logFile} 2>&1
 
     rm ${collectionZip}
+
+    handleErrors
 }
 
 ##
@@ -359,6 +366,18 @@ function runTests()
     composer install
 
     vendor/bin/phpunit
+}
+
+##
+ # Handle command errors
+ #
+function handleErrors()
+{
+    if [[ $? -ne 0 ]]; then
+        echo "FATAL ERROR: unable to download file"
+        cat ${logFile}
+        exit 1
+    fi
 }
 
 ##
