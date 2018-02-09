@@ -12,6 +12,8 @@ function main()
 {
     echo "Upgrading..."
 
+    checkDependencies
+
     prepareEnvironment
 
     displayVariables
@@ -39,6 +41,19 @@ function main()
     cleanupDir
 
     runTests
+}
+
+##
+ # Check if all dependencies are available
+ #
+function checkDependencies()
+{
+    for dependency in ${dependencies[@]}; do
+        if ! [ -x "$(command -v ${dependency})" ]; then
+            echo "Error: ${dependency} is not installed." >&2
+            exit 1
+        fi
+    done
 }
 
 ##
@@ -108,6 +123,11 @@ carriageReturn="
         'src/Collect/Support/helpers.php'
         'src/Collect/Support/alias.php'
         'tests/bootstrap.php'
+    )
+
+    dependencies=(
+        'wget'
+        'unzip'
     )
 }
 
