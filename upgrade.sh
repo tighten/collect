@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
 
 ##
+ # tightenco/collect upgrader script
+ #
+ # usage
+ #    ./upgrade.sh [laravel framework version]
+ #
+ #    or
+ #
+ #    bash upgrade.sh [laravel framework version]
+ #
+
+##
  # Include dotfiles on file operations
  #
 shopt -s dotglob
@@ -12,7 +23,7 @@ function main()
 {
     echo "Upgrading..."
 
-    prepareEnvironment
+    prepareEnvironment $1
 
     displayVariables
 
@@ -49,6 +60,7 @@ function prepareEnvironment()
     ##
      # Define all variables
      #
+    requestedVersion=$1
     rootDir=.
     baseDir=${rootDir}/src
     vendor=laravel
@@ -273,7 +285,11 @@ function getCurrentVersionFromGitHub()
 {
     echo Getting current version from $repository...
 
-    collectionVersion=$(git ls-remote $repository | grep tags/ | grep -v {} | cut -d \/ -f 3 | cut -d v -f 2  | grep -v RC | grep -vi beta | sort -t. -k 1,1n -k 2,2n -k 3,3n| tail -1)
+    if [ -z "$requestedVersion" ]; then
+        collectionVersion=$(git ls-remote $repository | grep tags/ | grep -v {} | cut -d \/ -f 3 | cut -d v -f 2  | grep -v RC | grep -vi beta | sort -t. -k 1,1n -k 2,2n -k 3,3n| tail -1)
+    else
+        collectionVersion=$requestedVersion
+    fi
 
     echo Upgrading to $vendor/$project $collectionVersion
 }
