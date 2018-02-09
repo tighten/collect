@@ -374,7 +374,7 @@ function runTests()
 function handleErrors()
 {
     if [[ $? -ne 0 ]]; then
-        echo "FATAL ERROR: unable to download file"
+        echo "FATAL ERROR occurred during command execution:"
         cat ${logFile}
         exit 1
     fi
