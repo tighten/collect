@@ -34,7 +34,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
      */
     protected static $proxies = [
         'average', 'avg', 'contains', 'each', 'every', 'filter', 'first', 'flatMap',
-        'keyBy', 'map', 'partition', 'reject', 'sortBy', 'sortByDesc', 'sum',
+        'keyBy', 'map', 'partition', 'reject', 'sortBy', 'sortByDesc', 'sum', 'unique',
     ];
 
     /**
@@ -387,7 +387,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     /**
      * Get all items except for those with the specified keys.
      *
-     * @param  \Illuminate\Support\Collection|mixed  $keys
+     * @param  \Tightenco\Collect\Support\Collection|mixed  $keys
      * @return static
      */
     public function except($keys)

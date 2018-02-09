@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Debug\Dumper;
+use Tightenco\Collect\Support\Arr;
+use Tightenco\Collect\Support\Collection;
+use Tightenco\Collect\Support\Debug\Dumper;
 
 if (! function_exists('array_wrap')) {
     /**
