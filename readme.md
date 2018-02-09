@@ -1,4 +1,5 @@
 [![Codeship Status for tightenco/collect](https://codeship.com/projects/7a88b780-04ee-0134-0d48-3e31f9e0f6b8/status?branch=master)](https://codeship.com/projects/154325)
+[![Travis Status for tightenco/collect](https://travis-ci.org/tightenco/collect.svg?branch=master)](https://travis-ci.org/tightenco/collect)
 
 ![](https://raw.githubusercontent.com/tightenco/collect/master/collect-logo.png)
 
