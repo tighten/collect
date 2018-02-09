@@ -79,7 +79,6 @@ carriageReturn="
         'Support/Carbon'
         'Support/HigherOrderCollectionProxy'
         'Support/HtmlString'
-        'Support/Str'
         'Support/Debug/Dumper'
         'Support/Debug/HtmlDumper'
     )
@@ -98,7 +97,6 @@ carriageReturn="
         'Support/SupportCollectionTest.php'
         'Support/SupportArrTest.php'
         'Support/SupportMacroableTest.php'
-        'Support/SupportStrTest.php'
         'Support/SupportCarbonTest.php'
     )
 
@@ -286,14 +284,6 @@ function getCurrentVersionFromGitHub()
 function downloadTests()
 {
     echo "-- Copying tests..."
-
-    tests=(
-        'Support/SupportCollectionTest.php'
-        'Support/SupportArrTest.php'
-        'Support/SupportMacroableTest.php'
-        'Support/SupportStrTest.php'
-        'Support/SupportCarbonTest.php'
-    )
 
     for test in ${tests[@]}; do
         echo "---- Downloading test ${testsBaseUrl}/${test} to ${testsDir}/${test}..."
