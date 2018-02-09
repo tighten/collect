@@ -83,6 +83,10 @@ carriageReturn="
         'Support/Debug/HtmlDumper'
     )
 
+    excludeFromAliases=(
+        'Support/Carbon'
+    )
+
     traits=(
         'Support/Traits/Macroable'
     )
@@ -253,7 +257,9 @@ function fillAliases()
     done
 
     for class in ${classes[@]}; do
-        aliases="${aliases}${indent}${oldNamespace}/${class}::class => ${newNamespace}/${class}::class,CARRIAGERETURN"
+        if [[ ! " ${excludeFromAliases[@]} " =~ " ${class} " ]]; then
+            aliases="${aliases}${indent}${oldNamespace}/${class}::class => ${newNamespace}/${class}::class,CARRIAGERETURN"
+        fi
     done
 
     for trait in ${traits[@]}; do
