@@ -8,7 +8,7 @@ Import [Laravel's Collections](https://laravel.com/docs/collections) into non-La
 
 Written by Taylor Otwell as a part of Laravel's [Illuminate/Support](https://github.com/illuminate/support) package, Collect is just the code from Support needed in order to use Collections on their own.
 
-Lovingly split by Matt Stauffer for [Tighten Co.](http://tighten.co/), with a kick in the butt to finally do it from [@assertchris](https://github.com/assertchris).
+Lovingly split by Matt Stauffer for [Tighten Co.](https://tighten.co/), with a kick in the butt to finally do it from [@assertchris](https://github.com/assertchris).
 
 ## Installation
 
@@ -25,4 +25,4 @@ composer require tightenco/collect
  - **Why is the package `tightenco/collect` instead of `illuminate/collect`?**  
     It's not an official Laravel package so we don't want to use the Packagist namespace reserved by Laravel packages. One day `Collection` may be extracted from `illuminate/support` to a new package. If so, we'll deprecate this package and point to the core version.
  - **Why not just use an array?**  
-    What a great question. [Tighten alum Adam Wathan has a book about that.](http://adamwathan.me/refactoring-to-collections/)
+    What a great question. [Tighten alum Adam Wathan has a book about that.](https://adamwathan.me/refactoring-to-collections/)
