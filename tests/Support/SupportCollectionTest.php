@@ -1004,12 +1004,12 @@ class SupportCollectionTest extends TestCase
             2 => [
                 'name' => 'a',
                 'startTime' => strtotime("2018-02-15"),
-                'endTime' => strtotime("2018-02-17")
+                'endTime' => strtotime("2018-02-18")
             ],
             3 => [
                 'name' => 'b',
                 'startTime' => strtotime("2018-02-15"),
-                'endTime' => strtotime("2018-02-18")
+                'endTime' => strtotime("2018-02-17")
             ]
         ], array_values($data->all()));
     }
