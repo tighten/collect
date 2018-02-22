@@ -292,17 +292,17 @@ function fillAliases()
     aliases='CARRIAGERETURN'
 
     for contract in ${contracts[@]}; do
-        aliases="${aliases}${indent}${oldNamespace}/${contract}::class => ${newNamespace}/${contract}::class,CARRIAGERETURN"
+        aliases="${aliases}${indent}${newNamespace}/${contract}::class => ${oldNamespace}/${contract}::class,CARRIAGERETURN"
     done
 
     for class in ${classes[@]}; do
         if [[ ! " ${excludeFromAliases[@]} " =~ " ${class} " ]]; then
-            aliases="${aliases}${indent}${oldNamespace}/${class}::class => ${newNamespace}/${class}::class,CARRIAGERETURN"
+            aliases="${aliases}${indent}${newNamespace}/${class}::class => ${oldNamespace}/${class}::class,CARRIAGERETURN"
         fi
     done
 
     for trait in ${traits[@]}; do
-        aliases="${aliases}${indent}${oldNamespace}/${trait}::class => ${newNamespace}/${trait}::class,CARRIAGERETURN"
+        aliases="${aliases}${indent}${newNamespace}/${trait}::class => ${oldNamespace}/${trait}::class,CARRIAGERETURN"
     done
 
     aliases=${aliases//\//\\\\}
