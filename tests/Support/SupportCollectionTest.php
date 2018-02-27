@@ -633,10 +633,11 @@ class SupportCollectionTest extends TestCase
     {
         $c = new Collection(['en_GB', 'fr', 'HR']);
         // demonstrate that diffKeys wont support case insensitivity
-        $this->assertEquals(['en_GB', 'fr', 'HR'], $c->diff(new Collection(['en_gb' , 'hr']))->values()->toArray());
+        $this->assertEquals(['en_GB', 'fr', 'HR'], $c->diff(new Collection(['en_gb', 'hr']))->values()->toArray());
         // allow for case insensitive difference
-        $this->assertEquals(['fr'], $c->diffUsing(new Collection(['en_gb' , 'hr']), 'strcasecmp')->values()->toArray());
+        $this->assertEquals(['fr'], $c->diffUsing(new Collection(['en_gb', 'hr']), 'strcasecmp')->values()->toArray());
     }
+
     public function testDiffUsingWithNull()
     {
         $c = new Collection(['en_GB', 'fr', 'HR']);
@@ -940,6 +941,20 @@ class SupportCollectionTest extends TestCase
         });
 
         $this->assertEquals([1 => 'dayle', 0 => 'taylor'], $data->all());
+    }
+
+    public function testSortKeys()
+    {
+        $data = new Collection(['b' => 'dayle', 'a' => 'taylor']);
+
+        $this->assertEquals(['a' => 'taylor', 'b' => 'dayle'], $data->sortKeys()->all());
+    }
+
+    public function testSortKeysDesc()
+    {
+        $data = new Collection(['a' => 'taylor', 'b' => 'dayle']);
+
+        $this->assertEquals(['b' => 'dayle', 'a' => 'taylor'], $data->sortKeys()->all());
     }
 
     public function testReverse()
