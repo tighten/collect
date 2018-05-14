@@ -26,3 +26,7 @@ composer require tightenco/collect
     It's not an official Laravel package so we don't want to use the Packagist namespace reserved by Laravel packages. One day `Collection` may be extracted from `illuminate/support` to a new package. If so, we'll deprecate this package and point to the core version.
  - **Why not just use an array?**  
     What a great question. [Tighten alum Adam Wathan has a book about that.](https://adamwathan.me/refactoring-to-collections/)
+
+## License
+
+The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT). Collect consists almost entirely of Laravel source code, so maintains the same license.
