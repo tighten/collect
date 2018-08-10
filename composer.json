@@ -27,11 +27,6 @@
             "Tightenco\\Collect\\": "src/Collect"
         }
     },
-    "autoload-dev": {
-        "psr-4": {
-            "Tightenco\\Collect\\Tests\\Support\\": "tests/Support"
-        }
-    },
     "scripts": {
         "test": [
             "@composer install",
