@@ -30,7 +30,7 @@
     "scripts": {
         "test": [
             "@composer install",
-            "vendor/bin/phpunit"
+            "phpunit"
         ]
     },
     "minimum-stability": "dev",
