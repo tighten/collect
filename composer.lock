@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5e36560f740d8f9668059776a8dd1486",
+    "content-hash": "d8f53252d6ecc4db169ec0a999fb3181",
     "packages": [
         {
             "name": "symfony/polyfill-mbstring",
@@ -135,9 +135,8 @@
                 "shasum": ""
             },
             "require": {
-                "php": "^7.1.3",
-                "symfony/polyfill-mbstring": "~1.0",
-                "symfony/polyfill-php72": "~1.5"
+                "php": "^5.5.9|>=7.0.8",
+                "symfony/polyfill-mbstring": "~1.0"
             },
             "conflict": {
                 "phpunit/phpunit": "<4.8.35|<5.4.3,>=5.0",
@@ -193,11 +192,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2018-07-26T11:24:31+00:00"
         }
-    ],
-    "packages-dev": [
-        {
             "name": "doctrine/instantiator",
             "version": "1.1.0",
             "source": {
@@ -1847,7 +1842,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.1.3"
+        "php": "^7.1.3"
     },
     "platform-dev": []
 }
