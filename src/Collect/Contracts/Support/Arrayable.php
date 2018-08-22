@@ -2,7 +2,7 @@
 
 namespace Tightenco\Collect\Contracts\Support;
 
-interface Arrayable
+interface Arrayable extends \Illuminate\Contracts\Support\Arrayable
 {
     /**
      * Get the instance as an array.

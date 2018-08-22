@@ -135,6 +135,8 @@ carriageReturn="
 
     stubs=(
         'src/Collect/Support/helpers.php'
+        'src/Collect/Support/classes.php'
+        'src/Collect/Support/contracts.php'
         'src/Collect/Support/alias.php'
         'tests/bootstrap.php'
     )
