@@ -2,7 +2,7 @@
 
 namespace Tightenco\Collect\Contracts\Support;
 
-interface Htmlable
+interface Htmlable extends \Illuminate\Contracts\Support\Htmlable
 {
     /**
      * Get content as a string of HTML.

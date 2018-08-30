@@ -2,7 +2,7 @@
 
 namespace Tightenco\Collect\Contracts\Support;
 
-interface Jsonable
+interface Jsonable extends \Illuminate\Contracts\Support\Jsonable
 {
     /**
      * Convert the object to its JSON representation.

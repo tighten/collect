@@ -39,7 +39,7 @@ use Tightenco\Collect\Contracts\Support\Arrayable;
  *
  * Class Collection
  */
-class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate, Jsonable, JsonSerializable
+class Collection extends \Illuminate\Support\Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate, Jsonable, JsonSerializable
 {
     use Macroable;
 
