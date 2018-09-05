@@ -19,7 +19,7 @@ shopt -s dotglob
 ##
  # App
  #
- 
+
 function main()
 {
     echo "Upgrading..."
@@ -108,8 +108,6 @@ carriageReturn="
         'Support/Carbon'
         'Support/HigherOrderCollectionProxy'
         'Support/HtmlString'
-        'Support/Debug/Dumper'
-        'Support/Debug/HtmlDumper'
     )
 
     excludeFromAliases=(

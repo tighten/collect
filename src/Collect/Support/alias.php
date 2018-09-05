@@ -8,8 +8,6 @@ $aliases = [
     Tightenco\Collect\Support\Arr::class => Illuminate\Support\Arr::class,
     Tightenco\Collect\Support\HigherOrderCollectionProxy::class => Illuminate\Support\HigherOrderCollectionProxy::class,
     Tightenco\Collect\Support\HtmlString::class => Illuminate\Support\HtmlString::class,
-    Tightenco\Collect\Support\Debug\Dumper::class => Illuminate\Support\Debug\Dumper::class,
-    Tightenco\Collect\Support\Debug\HtmlDumper::class => Illuminate\Support\Debug\HtmlDumper::class,
     Tightenco\Collect\Support\Traits\Macroable::class => Illuminate\Support\Traits\Macroable::class,
 ];
 
