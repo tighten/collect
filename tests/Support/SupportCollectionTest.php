@@ -6,10 +6,13 @@ use stdClass;
 use Exception;
 use ArrayAccess;
 use Mockery as m;
+use ArrayIterator;
+use CachingIterator;
 use ReflectionClass;
 use JsonSerializable;
 use PHPUnit\Framework\TestCase;
 use Tightenco\Collect\Support\Collection;
+use Tightenco\Collect\Support\HtmlString;
 use Tightenco\Collect\Contracts\Support\Jsonable;
 use Tightenco\Collect\Contracts\Support\Arrayable;
 
@@ -184,9 +187,9 @@ class SupportCollectionTest extends TestCase
 
     public function testToArrayCallsToArrayOnEachItemInCollection()
     {
-        $item1 = m::mock('Tightenco\Collect\Contracts\Support\Arrayable');
+        $item1 = m::mock(Arrayable::class);
         $item1->shouldReceive('toArray')->once()->andReturn('foo.array');
-        $item2 = m::mock('Tightenco\Collect\Contracts\Support\Arrayable');
+        $item2 = m::mock(Arrayable::class);
         $item2->shouldReceive('toArray')->once()->andReturn('bar.array');
         $c = new Collection([$item1, $item2]);
         $results = $c->toArray();
@@ -196,9 +199,9 @@ class SupportCollectionTest extends TestCase
 
     public function testJsonSerializeCallsToArrayOrJsonSerializeOnEachItemInCollection()
     {
-        $item1 = m::mock('JsonSerializable');
+        $item1 = m::mock(JsonSerializable::class);
         $item1->shouldReceive('jsonSerialize')->once()->andReturn('foo.json');
-        $item2 = m::mock('Tightenco\Collect\Contracts\Support\Arrayable');
+        $item2 = m::mock(Arrayable::class);
         $item2->shouldReceive('toArray')->once()->andReturn('bar.array');
         $c = new Collection([$item1, $item2]);
         $results = $c->jsonSerialize();
@@ -305,14 +308,14 @@ class SupportCollectionTest extends TestCase
     public function testIterable()
     {
         $c = new Collection(['foo']);
-        $this->assertInstanceOf('ArrayIterator', $c->getIterator());
+        $this->assertInstanceOf(ArrayIterator::class, $c->getIterator());
         $this->assertEquals(['foo'], $c->getIterator()->getArrayCopy());
     }
 
     public function testCachingIterator()
     {
         $c = new Collection(['foo']);
-        $this->assertInstanceOf('CachingIterator', $c->getCachingIterator());
+        $this->assertInstanceOf(CachingIterator::class, $c->getCachingIterator());
     }
 
     public function testFilter()
@@ -472,16 +475,16 @@ class SupportCollectionTest extends TestCase
             $c->where('v', '<', null)->values()->all()
         );
 
-        $c = new Collection([['v' => 1], ['v' => new \Tightenco\Collect\Support\HtmlString('hello')]]);
+        $c = new Collection([['v' => 1], ['v' => new HtmlString('hello')]]);
         $this->assertEquals(
-            [['v' => new \Tightenco\Collect\Support\HtmlString('hello')]],
+            [['v' => new HtmlString('hello')]],
             $c->where('v', 'hello')->values()->all()
         );
 
         $c = new Collection([['v' => 1], ['v' => 'hello']]);
         $this->assertEquals(
             [['v' => 'hello']],
-            $c->where('v', new \Tightenco\Collect\Support\HtmlString('hello'))->values()->all()
+            $c->where('v', new HtmlString('hello'))->values()->all()
         );
 
         $c = new Collection([['v' => 1], ['v' => 2], ['v' => null]]);
@@ -2541,7 +2544,7 @@ class SupportCollectionTest extends TestCase
     {
         $collection = new Collection(range(1, 10));
 
-        list($firstPartition, $secondPartition) = $collection->partition(function ($i) {
+        [$firstPartition, $secondPartition] = $collection->partition(function ($i) {
             return $i <= 5;
         });
 
@@ -2553,7 +2556,7 @@ class SupportCollectionTest extends TestCase
     {
         $collection = new Collection(['zero', 'one', 'two', 'three']);
 
-        list($even, $odd) = $collection->partition(function ($item, $index) {
+        [$even, $odd] = $collection->partition(function ($item, $index) {
             return $index % 2 === 0;
         });
 
@@ -2568,7 +2571,7 @@ class SupportCollectionTest extends TestCase
             ['free' => true, 'title' => 'Basic'], ['free' => false, 'title' => 'Premium'],
         ]);
 
-        list($free, $premium) = $courses->partition('free');
+        [$free, $premium] = $courses->partition('free');
 
         $this->assertSame([['free' => true, 'title' => 'Basic']], $free->values()->toArray());
 
@@ -2584,7 +2587,7 @@ class SupportCollectionTest extends TestCase
             ['name' => 'Tim', 'age' => 41],
         ]);
 
-        list($tims, $others) = $collection->partition('name', 'Tim');
+        [$tims, $others] = $collection->partition('name', 'Tim');
 
         $this->assertEquals($tims->values()->all(), [
             ['name' => 'Tim', 'age' => 17],
@@ -2596,7 +2599,7 @@ class SupportCollectionTest extends TestCase
             ['name' => 'Kristina', 'age' => 33],
         ]);
 
-        list($adults, $minors) = $collection->partition('age', '>=', 18);
+        [$adults, $minors] = $collection->partition('age', '>=', 18);
 
         $this->assertEquals($adults->values()->all(), [
             ['name' => 'Agatha', 'age' => 62],
@@ -2615,7 +2618,7 @@ class SupportCollectionTest extends TestCase
             'a' => ['free' => true], 'b' => ['free' => false], 'c' => ['free' => true],
         ]);
 
-        list($free, $premium) = $courses->partition('free');
+        [$free, $premium] = $courses->partition('free');
 
         $this->assertSame(['a' => ['free' => true], 'c' => ['free' => true]], $free->toArray());
 
@@ -2637,7 +2640,7 @@ class SupportCollectionTest extends TestCase
             'a' => ['free' => true], 'b' => ['free' => false], 'c' => ['free' => true],
         ]);
 
-        list($free, $premium) = $courses->partition->free;
+        [$free, $premium] = $courses->partition->free;
 
         $this->assertSame(['a' => ['free' => true], 'c' => ['free' => true]], $free->toArray());
 
