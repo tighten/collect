@@ -5,6 +5,7 @@ namespace Tightenco\Collect\Tests\Support;
 use stdClass;
 use ArrayObject;
 use Tightenco\Collect\Support\Arr;
+use InvalidArgumentException;
 use Tightenco\Collect\Support\Carbon;
 use PHPUnit\Framework\TestCase;
 use Tightenco\Collect\Support\Collection;
@@ -83,7 +84,7 @@ class SupportArrTest extends TestCase
 
     public function testDivide()
     {
-        list($keys, $values) = Arr::divide(['name' => 'Desk']);
+        [$keys, $values] = Arr::divide(['name' => 'Desk']);
         $this->assertEquals(['name'], $keys);
         $this->assertEquals(['Desk'], $values);
     }
@@ -482,19 +483,19 @@ class SupportArrTest extends TestCase
 
         try {
             Arr::random([]);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             $exceptions++;
         }
 
         try {
             Arr::random([], 1);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             $exceptions++;
         }
 
         try {
             Arr::random([], 2);
-        } catch (\InvalidArgumentException $e) {
+        } catch (InvalidArgumentException $e) {
             $exceptions++;
         }
 
