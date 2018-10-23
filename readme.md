@@ -10,7 +10,7 @@ Written by Taylor Otwell as a part of Laravel's [Illuminate/Support](https://git
 
 Lovingly split by Matt Stauffer for [Tighten Co.](https://tighten.co/), with a kick in the butt to finally do it from [@assertchris](https://github.com/assertchris).
 
-## Installation
+## Install
 
 With [Composer](https://getcomposer.org):
 
@@ -18,13 +18,24 @@ With [Composer](https://getcomposer.org):
 composer require tightenco/collect
 ```
 
+## Upgrade
+To upgrade Collect, simply run `./upgrade.sh` from the root directory. This will pull in the recent Laravel changes, update the Collect package and run the unit tests.
+
+> The upgrade script requires the use of `wget`. To install [homebrew](https://brew.sh), and run `brew install wget`
+
+## Test
+**Currently tests need to be ran after `./upgrade.sh`.**
+
+```bash
+vendor/bin/phpunit
+```
 
 ## FAQ
- - **Will this develop independently from Illuminate's Collections?**  
+ - **Will this develop independently from Illuminate's Collections?**
     No. Right now it's split manually, but the goal is for it shortly to be split automatically to keep it in sync with Laravel's Collections, even mirroring the release numbers.
- - **Why is the package `tightenco/collect` instead of `illuminate/collect`?**  
+ - **Why is the package `tightenco/collect` instead of `illuminate/collect`?**
     It's not an official Laravel package so we don't want to use the Packagist namespace reserved by Laravel packages. One day `Collection` may be extracted from `illuminate/support` to a new package. If so, we'll deprecate this package and point to the core version.
- - **Why not just use an array?**  
+ - **Why not just use an array?**
     What a great question. [Tighten alum Adam Wathan has a book about that.](https://adamwathan.me/refactoring-to-collections/)
 
 ## License
