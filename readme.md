@@ -24,7 +24,7 @@ To upgrade Collect, simply run `./upgrade.sh` from the root directory. This will
 > The upgrade script requires the use of `wget`. To install [homebrew](https://brew.sh), and run `brew install wget`
 
 ## Test
-**Currently tests need to be ran after `./upgrade.sh`.**
+**Due to a [dependency on Carbon](https://github.com/tightenco/collect/commit/4afe1fcb40f1c10e399730562c2c7ca36c6fba01), tests need to be ran after `./upgrade.sh`.**
 
 ```bash
 vendor/bin/phpunit
