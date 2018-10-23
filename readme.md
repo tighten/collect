@@ -19,9 +19,14 @@ composer require tightenco/collect
 ```
 
 ## Upgrade
-To upgrade Collect, simply run `./upgrade.sh` from the root directory. This will pull in the recent Laravel changes, update the Collect package and run the unit tests.
+To upgrade Collect, simply run `./upgrade.sh` from the root directory. By default this will pull in the most recent Laravel 5.7 changes, update the Collect package and run the unit tests. The upgrade script accepts a Laravel version, so a specific version can be passed in.
 
-> The upgrade script requires the use of `wget`. To install [homebrew](https://brew.sh), and run `brew install wget`
+```bash
+./updrade.sh 5.7.10
+```
+
+
+> The upgrade script requires the use of `wget`. It's recommended to install [homebrew](https://brew.sh), and run `brew install wget`
 
 ## Test
 **Due to a [dependency on Carbon](https://github.com/tightenco/collect/commit/4afe1fcb40f1c10e399730562c2c7ca36c6fba01), tests won't pass until you've run `./upgrade.sh` at least once locally.**
