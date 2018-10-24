@@ -22,7 +22,9 @@ composer require tightenco/collect
 To upgrade Collect, simply run `./upgrade.sh` from the root directory. By default this will pull in the most recent Laravel 5.7 changes, update the Collect package and run the unit tests. The upgrade script accepts a Laravel version, so a specific version can be passed in.
 
 ```bash
-./updrade.sh 5.7.10
+./upgrade.sh
+# or
+./upgrade.sh 5.7.10
 ```
 
 
