@@ -1,10 +1,10 @@
 <?php
 
-use Tightenco\Collect\Support\Arr;
-use Tightenco\Collect\Support\Collection;
-use Tightenco\Collect\Support\Debug\Dumper;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Debug\Dumper;
 
-if (! class_exists(Illuminate\Support\Collection::class)) {
+if (! class_exists(/*--- OLDNAMESPACE ---*/\Support\Collection::class)) {
     if (! function_exists('array_wrap')) {
         /**
          * If the given value is not an array, wrap it in one.
@@ -23,7 +23,7 @@ if (! class_exists(Illuminate\Support\Collection::class)) {
          * Create a collection from the given value.
          *
          * @param  mixed  $value
-         * @return \Tightenco\Collect\Support\Collection
+         * @return \Illuminate\Support\Collection
          */
         function collect($value = null)
         {
