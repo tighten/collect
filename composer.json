@@ -15,7 +15,8 @@
     },
     "require-dev": {
         "mockery/mockery": "~1.0",
-        "phpunit/phpunit": "~6.0"
+        "phpunit/phpunit": "~6.0",
+        "nesbot/carbon": "^1.26.3"
     },
     "autoload": {
         "files": [
