@@ -1891,6 +1891,25 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     }
 
     /**
+     * Count the number of items in the collection using a given truth test.
+     *
+     * @param  callable|null  $callback
+     * @return static
+     */
+    public function countBy($callback = null)
+    {
+        if (is_null($callback)) {
+            $callback = function ($value) {
+                return $value;
+            };
+        }
+
+        return new static($this->groupBy($callback)->map(function ($value) {
+            return $value->count();
+        }));
+    }
+
+    /**
      * Add an item to the collection.
      *
      * @param  mixed  $item
