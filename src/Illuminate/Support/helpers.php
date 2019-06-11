@@ -1,16 +1,16 @@
 <?php
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
+use WPML\Collect\Support\Arr;
+use WPML\Collect\Support\Collection;
 
-if (! function_exists('collect')) {
+if (! function_exists('wpml_collect')) {
     /**
      * Create a collection from the given value.
      *
      * @param  mixed  $value
-     * @return \Illuminate\Support\Collection
+     * @return \WPML\Collect\Support\Collection
      */
-    function collect($value = null)
+    function wpml_collect($value = null)
     {
         return new Collection($value);
     }
