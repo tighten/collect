@@ -1,6 +1,6 @@
 <?php
 
-namespace Illuminate\Contracts\Support;
+namespace WPML\Collect\Contracts\Support;
 
 interface Jsonable
 {

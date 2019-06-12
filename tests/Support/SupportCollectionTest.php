@@ -1,9 +1,9 @@
 <?php
 
 use Mockery as m;
-use Illuminate\Support\Collection;
-use Illuminate\Contracts\Support\Jsonable;
-use Illuminate\Contracts\Support\Arrayable;
+use WPML\Collect\Support\Collection;
+use WPML\Collect\Contracts\Support\Jsonable;
+use WPML\Collect\Contracts\Support\Arrayable;
 
 class SupportCollectionTest extends PHPUnit_Framework_TestCase
 {
@@ -121,9 +121,9 @@ class SupportCollectionTest extends PHPUnit_Framework_TestCase
 
     public function testToArrayCallsToArrayOnEachItemInCollection()
     {
-        $item1 = m::mock('Illuminate\Contracts\Support\Arrayable');
+        $item1 = m::mock('WPML\Collect\Contracts\Support\Arrayable');
         $item1->shouldReceive('toArray')->once()->andReturn('foo.array');
-        $item2 = m::mock('Illuminate\Contracts\Support\Arrayable');
+        $item2 = m::mock('WPML\Collect\Contracts\Support\Arrayable');
         $item2->shouldReceive('toArray')->once()->andReturn('bar.array');
         $c = new Collection([$item1, $item2]);
         $results = $c->toArray();
@@ -135,7 +135,7 @@ class SupportCollectionTest extends PHPUnit_Framework_TestCase
     {
         $item1 = m::mock('JsonSerializable');
         $item1->shouldReceive('jsonSerialize')->once()->andReturn('foo.json');
-        $item2 = m::mock('Illuminate\Contracts\Support\Arrayable');
+        $item2 = m::mock('WPML\Collect\Contracts\Support\Arrayable');
         $item2->shouldReceive('toArray')->once()->andReturn('bar.array');
         $c = new Collection([$item1, $item2]);
         $results = $c->jsonSerialize();

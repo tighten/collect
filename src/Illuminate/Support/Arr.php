@@ -1,9 +1,9 @@
 <?php
 
-namespace Illuminate\Support;
+namespace WPML\Collect\Support;
 
 use ArrayAccess;
-use Illuminate\Support\Traits\Macroable;
+use WPML\Collect\Support\Traits\Macroable;
 
 class Arr
 {
