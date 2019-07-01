@@ -1345,4 +1345,50 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
 
         return (array) $items;
     }
+
+	/** Those methods exist in the latest version of the library and have been copied here */
+
+	/**
+	 * Run a dictionary map over the items.
+	 *
+	 * The callback should return an associative array with a single key/value pair.
+	 *
+	 * @param  callable  $callback
+	 * @return $this
+	 */
+	public function mapToDictionary(callable $callback)
+	{
+		$dictionary = [];
+
+		foreach ($this->items as $key => $item) {
+			$pair = $callback($item, $key);
+
+			$key = key($pair);
+
+			$value = reset($pair);
+
+			if (! isset($dictionary[$key])) {
+				$dictionary[$key] = [];
+			}
+
+			$dictionary[$key][] = $value;
+		}
+
+		return new static($dictionary);
+	}
+
+	/**
+	 * Run a grouping map over the items.
+	 *
+	 * The callback should return an associative array with a single key/value pair.
+	 *
+	 * @param  callable  $callback
+	 * @return static
+	 */
+	public function mapToGroups(callable $callback)
+	{
+		$groups = $this->mapToDictionary($callback);
+
+		return $groups->map([$this, 'make']);
+	}
 }
