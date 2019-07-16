@@ -2,6 +2,7 @@
 
 use Tightenco\Collect\Support\Arr;
 use Tightenco\Collect\Support\Collection;
+use Symfony\Component\VarDumper\VarDumper;
 
 if (! class_exists(Illuminate\Support\Collection::class)) {
     if (! function_exists('array_wrap')) {
@@ -96,6 +97,22 @@ if (! class_exists(Illuminate\Support\Collection::class)) {
         function with($object)
         {
             return $object;
+        }
+    }
+
+    if (! function_exists('dd')) {
+        /**
+         * Dump the passed variables and end the script.
+         *
+         * @param  mixed
+         * @return void
+         */
+        function dd(...$args)
+        {
+            foreach ($args as $x) {
+               VarDumper::dump($x);
+            }
+            die(1);
         }
     }
 }
