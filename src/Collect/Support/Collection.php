@@ -13,7 +13,6 @@ use JsonSerializable;
 use IteratorAggregate;
 use Tightenco\Collect\Support\Traits\Macroable;
 use Tightenco\Collect\Contracts\Support\Jsonable;
-use Symfony\Component\VarDumper\VarDumper;
 use Tightenco\Collect\Contracts\Support\Arrayable;
 
 /**
@@ -330,7 +329,8 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
         (new static(func_get_args()))
             ->push($this)
             ->each(function ($item) {
-                VarDumper::dump($item);
+                var_dump($item);
+                //VarDumper::dump($item);
             });
 
         return $this;
