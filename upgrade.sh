@@ -93,10 +93,14 @@ function prepareEnvironment()
     repositorySrcDir=${repositoryDir}/src
     collectionZip=${rootDir}/$project-${collectionVersion}.zip
     collectionZipUrl=https://github.com/$vendor/$project/archive/v${collectionVersion}.zip
+    # If a new version has not been tagged, use the following
+    # collectionZipUrl=https://github.com/$vendor/$project/archive/${collectionVersion}.zip
     oldNamespaceDir=${repositorySrcDir}/${oldNamespace}
     newNamespaceDir=${baseDir}/${newDir}
     testsDir=${rootDir}/tests
     testsBaseUrl=https://raw.githubusercontent.com/${vendor}/${project}/v${collectionVersion}/tests
+    # If a new version has not been tagged, use the following
+    # testsBaseUrl=https://raw.githubusercontent.com/${vendor}/${project}/${collectionVersion}/tests
     stubsDir=${rootDir}/stubs
     aliasFile=${baseDir}/${newDir}/Support/alias.php
 carriageReturn="
@@ -104,10 +108,12 @@ carriageReturn="
 
     classes=(
         'Support/Collection'
+        'Support/LazyCollection'
         'Support/Arr'
         'Support/Carbon'
         'Support/HigherOrderCollectionProxy'
         'Support/HtmlString'
+        'Support/Enumerable'
     )
 
     excludeFromAliases=(
@@ -116,6 +122,7 @@ carriageReturn="
 
     traits=(
         'Support/Traits/Macroable'
+        'Support/Traits/EnumeratesValues'
     )
 
     contracts=(
