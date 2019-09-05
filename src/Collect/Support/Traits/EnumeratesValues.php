@@ -7,6 +7,7 @@ use Traversable;
 use CachingIterator;
 use JsonSerializable;
 use Tightenco\Collect\Support\Arr;
+use Tightenco\Collect\Support\Collection;
 use Tightenco\Collect\Support\Enumerable;
 use Tightenco\Collect\Contracts\Support\Jsonable;
 use Symfony\Component\VarDumper\VarDumper;
@@ -672,6 +673,16 @@ trait EnumeratesValues
     public function uniqueStrict($key = null)
     {
         return $this->unique($key, true);
+    }
+
+    /**
+     * Collect the values into a collection.
+     *
+     * @return \Tightenco\Collect\Support\Collection
+     */
+    public function collect()
+    {
+        return new Collection($this->all());
     }
 
     /**
