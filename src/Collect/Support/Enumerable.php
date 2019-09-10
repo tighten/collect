@@ -3,10 +3,10 @@
 namespace Tightenco\Collect\Support;
 
 use Countable;
-use JsonSerializable;
-use IteratorAggregate;
-use Tightenco\Collect\Contracts\Support\Jsonable;
 use Tightenco\Collect\Contracts\Support\Arrayable;
+use Tightenco\Collect\Contracts\Support\Jsonable;
+use IteratorAggregate;
+use JsonSerializable;
 
 interface Enumerable extends Arrayable, Countable, IteratorAggregate, Jsonable, JsonSerializable
 {
