@@ -1391,4 +1391,19 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
 
 		return $groups->map([$this, 'make']);
 	}
+
+	/**
+	 * Move the items meeting the condition to the front of the collection
+	 *
+	 * @param callable $condition
+	 *
+	 * @return Collection - A new collection
+	 */
+	public function prioritize( callable $condition ) {
+		$nonPrioritized = $this->reject( $condition );
+
+		return $this
+			->filter( $condition )
+			->union( $nonPrioritized );
+	}
 }
