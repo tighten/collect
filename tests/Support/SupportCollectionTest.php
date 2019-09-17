@@ -2,22 +2,22 @@
 
 namespace Tightenco\Collect\Tests\Support;
 
-use stdClass;
-use Exception;
 use ArrayAccess;
-use ArrayObject;
-use Mockery as m;
 use ArrayIterator;
+use ArrayObject;
 use CachingIterator;
-use ReflectionClass;
-use JsonSerializable;
-use InvalidArgumentException;
-use PHPUnit\Framework\TestCase;
+use Exception;
+use Tightenco\Collect\Contracts\Support\Arrayable;
+use Tightenco\Collect\Contracts\Support\Jsonable;
 use Tightenco\Collect\Support\Collection;
 use Tightenco\Collect\Support\HtmlString;
 use Tightenco\Collect\Support\LazyCollection;
-use Tightenco\Collect\Contracts\Support\Jsonable;
-use Tightenco\Collect\Contracts\Support\Arrayable;
+use InvalidArgumentException;
+use JsonSerializable;
+use Mockery as m;
+use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use stdClass;
 
 class SupportCollectionTest extends TestCase
 {

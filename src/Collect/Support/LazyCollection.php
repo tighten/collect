@@ -2,12 +2,12 @@
 
 namespace Tightenco\Collect\Support;
 
-use Closure;
-use stdClass;
 use ArrayIterator;
-use IteratorAggregate;
-use Tightenco\Collect\Support\Traits\Macroable;
+use Closure;
 use Tightenco\Collect\Support\Traits\EnumeratesValues;
+use Tightenco\Collect\Support\Traits\Macroable;
+use IteratorAggregate;
+use stdClass;
 
 class LazyCollection implements Enumerable
 {

@@ -2,8 +2,8 @@
 
 namespace Tightenco\Collect\Tests\Support;
 
-use PHPUnit\Framework\TestCase;
 use Tightenco\Collect\Support\Traits\Macroable;
+use PHPUnit\Framework\TestCase;
 
 class SupportMacroableTest extends TestCase
 {

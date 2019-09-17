@@ -2,17 +2,17 @@
 
 namespace Tightenco\Collect\Support\Traits;
 
-use Exception;
-use Traversable;
 use CachingIterator;
-use JsonSerializable;
+use Exception;
+use Tightenco\Collect\Contracts\Support\Arrayable;
+use Tightenco\Collect\Contracts\Support\Jsonable;
 use Tightenco\Collect\Support\Arr;
 use Tightenco\Collect\Support\Collection;
 use Tightenco\Collect\Support\Enumerable;
-use Tightenco\Collect\Contracts\Support\Jsonable;
-use Symfony\Component\VarDumper\VarDumper;
-use Tightenco\Collect\Contracts\Support\Arrayable;
 use Tightenco\Collect\Support\HigherOrderCollectionProxy;
+use JsonSerializable;
+use Symfony\Component\VarDumper\VarDumper;
+use Traversable;
 
 /**
  * @property-read HigherOrderCollectionProxy $average
