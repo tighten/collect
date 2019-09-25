@@ -545,7 +545,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
         return empty($this->items);
     }
 
-    /**
+	/**
      * Determine if the given value is callable, but not a string.
      *
      * @param  mixed  $value
@@ -1404,6 +1404,62 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
 
 		return $this
 			->filter( $condition )
-			->union( $nonPrioritized );
+			->toBase()
+			->merge( $nonPrioritized );
 	}
+
+	/**
+	 * Convert an associative array of key => value to array of pairs [ key, value ].
+	 *
+	 * @return Collection
+	 */
+	public function assocToPair() {
+		return $this->keys()->zip( $this->values() );
+	}
+
+	/**
+	 * Convert an array of pairs [ key, value ] to an associative array of key => value.
+	 *
+	 * @return Collection
+	 */
+	public function pairToAssoc() {
+		return $this->mapWithKeys( function ( $pair ) {
+			return [ $pair[0] => $pair[1] ];
+		} );
+	}
+
+	/**
+	 * Executes the given function for each item while the total execution time is less then the time out.
+	 * Returns the unprocessed items if a timeout occurred.
+	 *
+	 * @param callable $fn Function to all for each item.
+	 * @param int $timeout Timeout in seconds.
+	 *
+	 * @return Collection
+	 */
+	public function eachWithTimeout( callable $fn, $timeout ) {
+		$endTime = time() + $timeout;
+
+		return $this->reduce( function ( Collection $unProcessed, $item ) use ( $endTime, $fn ) {
+			if ( time() > $endTime ) {
+				$unProcessed->push( $item );
+			} else {
+				$fn( $item );
+			}
+
+			return $unProcessed;
+		}, wpml_collect() );
+	}
+
+	/**
+	 * Determine if the collection is not empty.
+	 *
+	 * @return bool
+	 */
+	public function isNotEmpty()
+	{
+		return  ! empty($this->items);
+	}
+
+
 }

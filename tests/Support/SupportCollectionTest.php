@@ -72,6 +72,13 @@ class SupportCollectionTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($c->isEmpty());
     }
 
+	public function testNotEmptyCollectionIsNotEmpty()
+	{
+		$c = new Collection( [ 1, 2, 3 ]);
+
+		$this->assertTrue($c->isNotEmpty());
+	}
+
     public function testCollectionIsConstructed()
     {
         $collection = new Collection('foo');
@@ -1603,6 +1610,66 @@ class SupportCollectionTest extends PHPUnit_Framework_TestCase
             })->toArray()
         );
     }
+
+	public function testPrioritize() {
+		$collection = new Collection( [ 1, 2, 3, 4, 5 ] );
+
+		$filter = function( $item ) { return $item > 3; };
+
+		$this->assertEquals(
+			[ 4, 5, 1, 2, 3 ],
+			$collection->prioritize( $filter )->toArray()
+		);
+
+		$collection = new Collection( [ 'first', 'second', 'third' ] );
+
+		$filter = function( $item ) { return $item === 'second'; };
+
+		$this->assertEquals(
+			[ 'second', 'first', 'third' ],
+			$collection->prioritize( $filter )->toArray()
+		);
+	}
+
+	public function testAssocToPair() {
+		$collection = new Collection ( [ 'name' => 'wpml', 'type' => 'plugin' ] );
+
+		$this->assertEquals(
+			[ [ 'name', 'wpml' ], [ 'type', 'plugin' ] ],
+			$collection->assocToPair()->toArray()
+		);
+	}
+
+	public function testPairToAssoc() {
+		$collection = new Collection ( [ [ 'name', 'wpml' ], [ 'type', 'plugin' ] ] );
+
+		$this->assertEquals(
+			[ 'name' => 'wpml', 'type' => 'plugin' ],
+			$collection->pairToAssoc()->toArray()
+		);
+	}
+
+	public function testEachWithTimeout() {
+		$timeout = 10;
+
+		$c = new Collection( $original = [ 1, 2, 'bar', 'baz' ] );
+
+		$result      = [];
+		$unProcessed = $c->eachWithTimeout( function ( $item ) use ( &$result ) {
+			$result[] = $item;
+		}, $timeout );
+		$this->assertEquals( $original, $result );
+		$this->assertTrue( $unProcessed->isEmpty() );
+
+		$timeout     = - 1; // force a timeout
+		$result      = [];
+		$unProcessed = $c->eachWithTimeout( function ( $item ) use ( &$result ) {
+			$result[] = $item;
+		}, $timeout );
+		$this->assertCount( 0, $result );
+		$this->assertEquals( $original, $unProcessed->toArray() );
+	}
+
 }
 
 class TestAccessorEloquentTestStub
