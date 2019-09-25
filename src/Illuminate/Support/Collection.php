@@ -1429,7 +1429,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
 	}
 
 	/**
-	 * Executes the given function for each item while the total execution time is less then the time out.
+	 * Executes the given function for each item while the total execution time is less than the time out.
 	 * Returns the unprocessed items if a timeout occurred.
 	 *
 	 * @param callable $fn Function to all for each item.
