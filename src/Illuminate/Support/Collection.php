@@ -1414,7 +1414,9 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
 	 * @return Collection
 	 */
 	public function assocToPair() {
-		return $this->keys()->zip( $this->values() );
+		return $this->map( function ( $item, $key ) {
+			return [ $key, $item ];
+		} )->values();
 	}
 
 	/**
