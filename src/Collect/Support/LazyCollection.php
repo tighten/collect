@@ -100,6 +100,16 @@ class LazyCollection implements Enumerable
     }
 
     /**
+     * Eager load all items into a new lazy collection backed by an array.
+     *
+     * @return static
+     */
+    public function eager()
+    {
+        return new static($this->all());
+    }
+
+    /**
      * Get the average value of a given key.
      *
      * @param  callable|string|null  $callback
@@ -227,7 +237,7 @@ class LazyCollection implements Enumerable
     }
 
     /**
-     * Get the items whose keys and values are not present in the given items.
+     * Get the items whose keys and values are not present in the given items, using the callback.
      *
      * @param  mixed  $items
      * @param  callable  $callback
@@ -250,9 +260,9 @@ class LazyCollection implements Enumerable
     }
 
     /**
-     * Get the items whose keys are not present in the given items.
+     * Get the items whose keys are not present in the given items, using the callback.
      *
-     * @param  mixed   $items
+     * @param  mixed  $items
      * @param  callable  $callback
      * @return static
      */
