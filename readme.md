@@ -1,4 +1,4 @@
-[![Travis Status for tightenco/collect](https://travis-ci.org/tightenco/collect.svg?branch=master)](https://travis-ci.org/tightenco/collect)
+[![Travis Status for tightenco/collect](https://travis-ci.org/tightenco/collect.svg?branch=laravel-6-ongoing)](https://travis-ci.org/tightenco/collect)
 
 ![](https://raw.githubusercontent.com/tightenco/collect/master/collect-logo.png)
 
