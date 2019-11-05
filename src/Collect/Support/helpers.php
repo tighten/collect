@@ -99,20 +99,4 @@ if (! class_exists(Illuminate\Support\Collection::class)) {
             return $object;
         }
     }
-
-    if (! function_exists('dd')) {
-        /**
-         * Dump the passed variables and end the script.
-         *
-         * @param  mixed
-         * @return void
-         */
-        function dd(...$args)
-        {
-            foreach ($args as $x) {
-               VarDumper::dump($x);
-            }
-            die(1);
-        }
-    }
 }
