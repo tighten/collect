@@ -6,6 +6,6 @@
 /.gitignore export-ignore
 /collect-logo.png export-ignore
 /.travis.yml export-ignore
-/phpunit.xml export-ignore
+/phpunit.xml.dist export-ignore
 /readme.md export-ignore
 /upgrade.sh export-ignore
