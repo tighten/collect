@@ -4,6 +4,7 @@ php:
   - 7.1
   - 7.2
   - 7.3
+  - 7.4snapshot
   - nightly
 
 matrix:
@@ -22,3 +23,4 @@ before_script:
 
 script:
   - bash upgrade.sh
+- 7.4snapshot
