@@ -725,6 +725,28 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
         return $this->slice(($page - 1) * $perPage, $perPage);
     }
 
+	/**
+	 * Partition the collection into two arrays using the given callback or key.
+	 *
+	 * @param  callable|string  $key
+	 * @param  mixed  $operator
+	 * @param  mixed  $value
+	 * @return static
+	 */
+	public function partition($key, $operator = null, $value = null)
+	{
+		$partitions = [new static, new static];
+
+		$callback = func_num_args() === 1
+			? $this->valueRetriever($key)
+			: $this->operatorForWhere(...func_get_args());
+
+		foreach ($this->items as $key => $item) {
+			$partitions[(int) ! $callback($item, $key)][$key] = $item;
+		}
+
+		return new static($partitions);
+	}
     /**
      * Pass the collection to the given callback and return the result.
      *
