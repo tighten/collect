@@ -235,6 +235,8 @@ function copyClasses()
         mkdir -p $(dirname ${newNamespaceDir}/${class})
 
         cp ${oldNamespaceDir}/${class}.php ${newNamespaceDir}/${class}.php
+
+        chmod 644 ${newNamespaceDir}/${class}.php
     done
 }
 
@@ -283,6 +285,8 @@ function copyStubs()
         mkdir -p $(dirname ${rootDir}/${stub})
 
         cp ${stubsDir}/${stub} ${rootDir}/${stub}
+
+        chmod 644 ${rootDir}/${stub}
     done
 }
 
