@@ -428,7 +428,7 @@ class Collection implements ArrayAccess, Enumerable
      */
     public function groupBy($groupBy, $preserveKeys = false)
     {
-        if (! $this->useAsCallable($groupBy) && is_array($groupBy)) {
+        if (is_array($groupBy)) {
             $nextGroups = $groupBy;
 
             $groupBy = array_shift($nextGroups);
@@ -979,28 +979,6 @@ class Collection implements ArrayAccess, Enumerable
     }
 
     /**
-     * Skip items in the collection until the given condition is met.
-     *
-     * @param  mixed  $value
-     * @return static
-     */
-    public function skipUntil($value)
-    {
-        return new static($this->lazy()->skipUntil($value)->all());
-    }
-
-    /**
-     * Skip items in the collection while the given condition is met.
-     *
-     * @param  mixed  $value
-     * @return static
-     */
-    public function skipWhile($value)
-    {
-        return new static($this->lazy()->skipWhile($value)->all());
-    }
-
-    /**
      * Slice the underlying collection array.
      *
      * @param  int  $offset
@@ -1208,28 +1186,6 @@ class Collection implements ArrayAccess, Enumerable
     }
 
     /**
-     * Take items in the collection until the given condition is met.
-     *
-     * @param  mixed  $key
-     * @return static
-     */
-    public function takeUntil($value)
-    {
-        return new static($this->lazy()->takeUntil($value)->all());
-    }
-
-    /**
-     * Take items in the collection while the given condition is met.
-     *
-     * @param  mixed  $key
-     * @return static
-     */
-    public function takeWhile($value)
-    {
-        return new static($this->lazy()->takeWhile($value)->all());
-    }
-
-    /**
      * Transform each item in the collection using a callback.
      *
      * @param  callable  $callback
@@ -1258,7 +1214,7 @@ class Collection implements ArrayAccess, Enumerable
      * e.g. new Collection([1, 2, 3])->zip([4, 5, 6]);
      *      => [[1, 4], [2, 5], [3, 6]]
      *
-     * @param  mixed  ...$items
+     * @param  mixed ...$items
      * @return static
      */
     public function zip($items)
