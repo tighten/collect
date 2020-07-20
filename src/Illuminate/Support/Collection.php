@@ -1485,5 +1485,16 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
 		return  ! empty($this->items);
 	}
 
-
+	/**
+	 * Cross join with the given lists, returning all possible permutations.
+	 *
+	 * @param  mixed  ...$lists
+	 * @return static
+	 */
+	public function crossJoin(...$lists)
+	{
+		return new static(Arr::crossJoin(
+			$this->items, ...array_map([$this, 'getArrayableItems'], $lists)
+		));
+	}
 }
