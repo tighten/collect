@@ -535,7 +535,7 @@ class Arr
      * If no key is given to the method, the entire array will be replaced.
      *
      * @param  array  $array
-     * @param  string|null  $key
+     * @param  string  $key
      * @param  mixed  $value
      * @return array
      */
@@ -547,12 +547,8 @@ class Arr
 
         $keys = explode('.', $key);
 
-        foreach ($keys as $i => $key) {
-            if (count($keys) === 1) {
-                break;
-            }
-
-            unset($keys[$i]);
+        while (count($keys) > 1) {
+            $key = array_shift($keys);
 
             // If the key doesn't exist at this depth, we will just create an empty array
             // to hold the next value, allowing us to create the arrays to hold final
