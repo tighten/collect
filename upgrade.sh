@@ -91,7 +91,7 @@ function prepareEnvironment()
 
     getCurrentVersionFromGitHub
 
-    if ! [ $collectionVersion = "master" ]; then
+    if ! [ $collectionVersion = "8.x" ]; then
         collectionVersion="v${collectionVersion}";
     fi
 
@@ -139,7 +139,7 @@ carriageReturn="
         'Support/SupportCollectionTest.php'
         'Support/SupportArrTest.php'
         'Support/SupportMacroableTest.php'
-        'Support/LazyCollectionTest.php'
+        'Support/SupportLazyCollectionTest.php'
         'Support/SupportLazyCollectionIsLazyTest.php'
     )
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tightenco\Collect\Support;
+namespace Illuminate\Support;
 
 use Tightenco\Collect\Contracts\Support\Htmlable;
 

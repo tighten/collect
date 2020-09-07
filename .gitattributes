@@ -9,3 +9,5 @@
 /phpunit.xml.dist export-ignore
 /readme.md export-ignore
 /upgrade.sh export-ignore
+/tests/files/Support/Carbon.php export-ignore
+/tests/files/Support/HtmlString.php export-ignore
