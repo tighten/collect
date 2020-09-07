@@ -378,8 +378,9 @@ function renameNamespace()
 
     echo "-- Reigning the renaming back in; bringing Carbon back to Illuminate/Support"
 
-    # Replace Tightenco\Collect\Support\Carbon with Illuminate\Support\Carbon
-    find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco/\Collect/\Support/\Carbon|Illuminate/\Support/\Carbon|g" {} \;
+    # Just in tests, fix namespaces for classes that are no longer provided in collections as of 8.0+
+    find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support\\\Carbon|Illuminate\\\Support\\\Carbon|g" {} \;
+    find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support\\\HtmlString|Illuminate\\\Support\\\HtmlString|g" {} \;
 }
 
 ##
