@@ -111,17 +111,12 @@ carriageReturn="
 "
 
     classes=(
-        'Support/Collection'
-        'Support/LazyCollection'
         'Support/Arr'
-        'Support/Carbon'
-        'Support/HigherOrderCollectionProxy'
-        'Support/HtmlString'
+        'Support/Collection'
         'Support/Enumerable'
-    )
-
-    excludeFromAliases=(
-        'Support/Carbon'
+        'Support/HigherOrderCollectionProxy'
+        'Support/HigherOrderWhenProxy'
+        'Support/LazyCollection'
     )
 
     traits=(
@@ -139,7 +134,8 @@ carriageReturn="
         'Support/SupportCollectionTest.php'
         'Support/SupportArrTest.php'
         'Support/SupportMacroableTest.php'
-        'Support/SupportCarbonTest.php'
+        'Support/LazyCollectionTest.php'
+        'Support/SupportLazyCollectionIsLazyTest.php'
     )
 
     stubs=(
@@ -178,6 +174,7 @@ function displayVariables()
     echo testsBaseUrl = ${testsBaseUrl}
 
     echo "---------------------------------------------"
+    echo ""
 }
 
 ##
@@ -309,9 +306,7 @@ function fillAliases()
     done
 
     for class in ${classes[@]}; do
-        if [[ ! " ${excludeFromAliases[@]} " =~ " ${class} " ]]; then
-            aliases="${aliases}${indent}${newNamespace}/${class}::class => ${oldNamespace}/${class}::class,CARRIAGERETURN"
-        fi
+        aliases="${aliases}${indent}${newNamespace}/${class}::class => ${oldNamespace}/${class}::class,CARRIAGERETURN"
     done
 
     for trait in ${traits[@]}; do
