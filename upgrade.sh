@@ -46,6 +46,8 @@ function main()
 
     downloadTests
 
+    copyTestSupportFiles
+
     renameNamespace
 
     fillAliases
@@ -139,6 +141,11 @@ carriageReturn="
         'Support/SupportMacroableTest.php'
         'Support/LazyCollectionTest.php'
         'Support/SupportLazyCollectionIsLazyTest.php'
+    )
+
+    testSupportFiles=(
+        'Support/Carbon.php'
+        'Support/HtmlString.php'
     )
 
     stubs=(
@@ -362,6 +369,24 @@ function downloadTests()
         mkdir -p $(dirname ${testsDir}/${test})
 
         wget ${testsBaseUrl}/${test} -O ${testsDir}/${test} >/dev/null 2>&1
+    done
+}
+
+##
+ # Copy support files for tests
+ #
+function copyTestSupportFiles()
+{
+    echo "-- Copying support files for tests..."
+
+    for file in ${testSupportFiles[@]}; do
+        echo "Copying ${oldNamespaceDir}/${file}..."
+
+        mkdir -p $(dirname tests/files/{$file})
+
+        cp ${oldNamespaceDir}/${file} tests/files/$file
+
+        chmod 644 tests/files/${file}
     done
 }
 
