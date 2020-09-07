@@ -89,16 +89,20 @@ function prepareEnvironment()
 
     getCurrentVersionFromGitHub
 
+    if ! [ $collectionVersion = "master" ]; then
+        collectionVersion="v${collectionVersion}";
+    fi
+
     repositoryDir=${rootDir}/$project-${collectionVersion}
     repositorySrcDir=${repositoryDir}/src
     collectionZip=${rootDir}/$project-${collectionVersion}.zip
-    collectionZipUrl=https://github.com/$vendor/$project/archive/v${collectionVersion}.zip
+    collectionZipUrl=https://github.com/$vendor/$project/archive/${collectionVersion}.zip
     # If a new version has not been tagged, use the following
     # collectionZipUrl=https://github.com/$vendor/$project/archive/${collectionVersion}.zip
     oldNamespaceDir=${repositorySrcDir}/${oldNamespace}
     newNamespaceDir=${baseDir}/${newDir}
     testsDir=${rootDir}/tests
-    testsBaseUrl=https://raw.githubusercontent.com/${vendor}/${project}/v${collectionVersion}/tests
+    testsBaseUrl=https://raw.githubusercontent.com/${vendor}/${project}/${collectionVersion}/tests
     # If a new version has not been tagged, use the following
     # testsBaseUrl=https://raw.githubusercontent.com/${vendor}/${project}/${collectionVersion}/tests
     stubsDir=${rootDir}/stubs
