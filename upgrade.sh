@@ -120,8 +120,11 @@ carriageReturn="
     )
 
     traits=(
-        'Support/Traits/Macroable'
         'Support/Traits/EnumeratesValues'
+    )
+
+    supportTraits=(
+        'Support/Traits/Macroable'
     )
 
     contracts=(
@@ -231,11 +234,12 @@ function copyClasses()
     echo "-- Copying classes and contracts..."
 
     for class in ${classes[@]}; do
-        echo "Copying ${oldNamespaceDir}.php/${class}.php..."
+        classSrc="${class/Support/Collections}"
+        echo "Copying ${oldNamespaceDir}/${classSrc}.php..."
 
         mkdir -p $(dirname ${newNamespaceDir}/${class})
 
-        cp ${oldNamespaceDir}/${class}.php ${newNamespaceDir}/${class}.php
+        cp ${oldNamespaceDir}/${classSrc}.php ${newNamespaceDir}/${class}.php
 
         chmod 644 ${newNamespaceDir}/${class}.php
     done
@@ -265,11 +269,21 @@ function copyTraits()
     echo "-- Copying traits..."
 
     for trait in ${traits[@]}; do
-        echo "Copying ${oldNamespaceDir}/${trait}.php..."
+        traitSrc="${trait/Support/Collections}"
+        echo "Copying ${oldNamespaceDir}/${traitSrc}.php..."
 
         mkdir -p $(dirname ${newNamespaceDir}/${trait})
 
-        cp ${oldNamespaceDir}/${trait}.php ${newNamespaceDir}/${trait}.php
+        cp ${oldNamespaceDir}/${traitSrc}.php ${newNamespaceDir}/${trait}.php
+    done
+
+    for trait in ${supportTraits[@]}; do
+        traitSrc="${trait/Support/Macroable}"
+        echo "Copying ${oldNamespaceDir}/${traitSrc}.php..."
+
+        mkdir -p $(dirname ${newNamespaceDir}/${trait})
+
+        cp ${oldNamespaceDir}/${traitSrc}.php ${newNamespaceDir}/${trait}.php
     done
 }
 
@@ -361,6 +375,11 @@ function renameNamespace()
     find ${newNamespaceDir} -name "*.php" -exec sed -i "" -e "s|${oldNamespace}|${newNamespace}|g" {} \;
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|${oldNamespace}|${newNamespace}|g" {} \;
     find ${newNamespaceDir} -name "*.php" -exec sed -i "" -e "s|/\*--- OLDNAMESPACE ---\*/|${oldNamespace}|g" {} \;
+
+    echo "-- Reigning the renaming back in; bringing Carbon back to Illuminate/Support"
+
+    # Replace Tightenco\Collect\Support\Carbon with Illuminate\Support\Carbon
+    find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco/\Collect/\Support/\Carbon|Illuminate/\Support/\Carbon|g" {} \;
 }
 
 ##
