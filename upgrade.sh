@@ -46,7 +46,7 @@ function main()
 
     downloadTests
 
-    copyTestSupportFiles
+    copyTestSupportClasses
 
     renameNamespace
 
@@ -143,9 +143,9 @@ carriageReturn="
         'Support/SupportLazyCollectionIsLazyTest.php'
     )
 
-    testSupportFiles=(
-        'Support/Carbon.php'
-        'Support/HtmlString.php'
+    testSupportClasses=(
+        'Support/Carbon'
+        'Support/HtmlString'
     )
 
     stubs=(
@@ -375,19 +375,23 @@ function downloadTests()
 ##
  # Copy support files for tests
  #
-function copyTestSupportFiles()
+function copyTestSupportClasses()
 {
     echo "-- Copying support files for tests..."
+    testSupportDirectory='./tests/files'
 
-    for file in ${testSupportFiles[@]}; do
-        echo "Copying ${oldNamespaceDir}/${file}..."
+    for class in ${testSupportClasses[@]}; do
+        echo "Copying ${oldNamespaceDir}/${class}..."
 
-        mkdir -p $(dirname tests/files/{$file})
+        mkdir -p $(dirname $testSupportDirectory/$class)
 
-        cp ${oldNamespaceDir}/${file} tests/files/$file
+        cp ${oldNamespaceDir}/${class}.php ${testSupportDirectory}/$class.php
 
-        chmod 644 tests/files/${file}
+        chmod 644 ${testSupportDirectory}/${class}.php
     done
+
+    # @todo: do this more cleanly
+    find ./tests/files -name "*.php" -exec sed -i "" -e "s|Illuminate\\\Support|/\*--- OLDNAMESPACE ---\*/\\\Support|g" {} \;
 }
 
 ##
@@ -399,10 +403,12 @@ function renameNamespace()
 
     find ${newNamespaceDir} -name "*.php" -exec sed -i "" -e "s|${oldNamespace}|${newNamespace}|g" {} \;
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|${oldNamespace}|${newNamespace}|g" {} \;
+    find ${testsDir} -name "*.php" -exec sed -i "" -e "s|/\*--- OLDNAMESPACE ---\*/|${oldNamespace}|g" {} \;
     find ${newNamespaceDir} -name "*.php" -exec sed -i "" -e "s|/\*--- OLDNAMESPACE ---\*/|${oldNamespace}|g" {} \;
 
     echo "-- Reigning the renaming back in; bringing Carbon back to Illuminate/Support"
 
+    # @todo: do this more cleanly
     # Just in tests, fix namespaces for classes that are no longer provided in collections as of 8.0+
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support\\\Carbon|Illuminate\\\Support\\\Carbon|g" {} \;
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support\\\HtmlString|Illuminate\\\Support\\\HtmlString|g" {} \;

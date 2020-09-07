@@ -27,6 +27,12 @@
             "Tightenco\\Collect\\": "src/Collect"
         }
     },
+    "autoload-dev": {
+        "files": [
+            "tests/files/Support/Carbon.php",
+            "tests/files/Support/HtmlString.php"
+        ]
+    },
     "scripts": {
         "test": [
             "@composer install",
