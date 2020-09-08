@@ -91,20 +91,16 @@ function prepareEnvironment()
 
     getCurrentVersionFromGitHub
 
-    if ! [ $collectionVersion = "8.x" ]; then
-        collectionVersion="v${collectionVersion}";
-    fi
-
     repositoryDir=${rootDir}/$project-${collectionVersion}
     repositorySrcDir=${repositoryDir}/src
     collectionZip=${rootDir}/$project-${collectionVersion}.zip
-    collectionZipUrl=https://github.com/$vendor/$project/archive/${collectionVersion}.zip
+    collectionZipUrl=https://github.com/$vendor/$project/archive/v${collectionVersion}.zip
     # If a new version has not been tagged, use the following
     # collectionZipUrl=https://github.com/$vendor/$project/archive/${collectionVersion}.zip
     oldNamespaceDir=${repositorySrcDir}/${oldNamespace}
     newNamespaceDir=${baseDir}/${newDir}
     testsDir=${rootDir}/tests
-    testsBaseUrl=https://raw.githubusercontent.com/${vendor}/${project}/${collectionVersion}/tests
+    testsBaseUrl=https://raw.githubusercontent.com/${vendor}/${project}/v${collectionVersion}/tests
     # If a new version has not been tagged, use the following
     # testsBaseUrl=https://raw.githubusercontent.com/${vendor}/${project}/${collectionVersion}/tests
     stubsDir=${rootDir}/stubs
@@ -226,7 +222,7 @@ function extractZip()
 {
     echo "-- Extracting $project.zip..."
 
-    unzip ${collectionZip} -d ${rootDir} >${logFile} 2>&1
+    unzip -u ${collectionZip} -d ${rootDir} >${logFile} 2>&1
 
     rm ${collectionZip}
 
@@ -244,9 +240,9 @@ function copyClasses()
         classSrc="${class/Support/Collections}"
         echo "Copying ${oldNamespaceDir}/${classSrc}.php..."
 
-        mkdir -p $(dirname ${newNamespaceDir}/${class})
+        mkdir -p $(dirname ${newNamespaceDir}/${class}.php)
 
-        cp ${oldNamespaceDir}/${classSrc}.php ${newNamespaceDir}/${class}.php
+        cp ${oldNamespaceDir}/${classSrc}.php $newNamespaceDir/$class.php
 
         chmod 644 ${newNamespaceDir}/${class}.php
     done
