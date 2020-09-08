@@ -4,6 +4,8 @@
 
 # Collect - Illuminate Collections
 
+## Deprecated: With the separation of [Illuminate's Collections package](https://packagist.org/packages/illuminate/collections), Collect is no longer necessary :tada: . We will maintain it for the 8.0 and 9.0 releases of Laravel for the convenience of package maintainers, and will stop mirroring new major versions after 9.0, but keep the existing package here for continued support.
+
 Import [Laravel's Collections](https://laravel.com/docs/collections) into non-Laravel packages easily, without needing to require the entire `Illuminate\Support` package. ([Why not pull `Illuminate\Support` in framework-agnostic packages](https://mattallan.org/posts/dont-use-illuminate-support/))
 
 Written by Taylor Otwell as a part of Laravel's [Illuminate/Support](https://github.com/illuminate/support) package, Collect is just the code from Support needed in order to use Collections on their own.
