@@ -1,6 +1,6 @@
 [![Travis Status for tightenco/collect](https://travis-ci.org/tightenco/collect.svg?branch=laravel-6-ongoing)](https://travis-ci.org/tightenco/collect)
 
-![](https://raw.githubusercontent.com/tightenco/collect/master/collect-logo.png)
+![](https://raw.githubusercontent.com/tighten/collect/master/collect-logo.png)
 
 # Collect - Illuminate Collections
 
@@ -34,7 +34,7 @@ The upgrader will pull down the appropriate source and test files for the specif
 > The upgrade script requires the use of `wget`. It's recommended to install [homebrew](https://brew.sh), and run `brew install wget`
 
 ## Testing
-**Due to a [dependency on Carbon](https://github.com/tightenco/collect/commit/4afe1fcb40f1c10e399730562c2c7ca36c6fba01), tests won't pass until you've run `./upgrade.sh` at least once locally.**
+**Due to a [dependency on Carbon](https://github.com/tighten/collect/commit/4afe1fcb40f1c10e399730562c2c7ca36c6fba01), tests won't pass until you've run `./upgrade.sh` at least once locally.**
 
 ```bash
 vendor/bin/phpunit
