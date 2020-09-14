@@ -403,6 +403,9 @@ function renameNamespace()
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|${oldNamespace}|${newNamespace}|g" {} \;
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|/\*--- OLDNAMESPACE ---\*/|${oldNamespace}|g" {} \;
     find ${newNamespaceDir} -name "*.php" -exec sed -i "" -e "s|/\*--- OLDNAMESPACE ---\*/|${oldNamespace}|g" {} \;
+
+   echo "-- Expand the alias for Stringable to check for Illuminate, not Tightenco, Stringable"
+
     find ${newNamespaceDir} -name "*.php" -exec sed -i "" -e "s|instanceof\ Stringable|instanceof\ \\\Illuminate\\\Support\\\Stringable|g" {} \;
 
     echo "-- Reigning the renaming back in; bringing Carbon, HtmlString, Str back to Illuminate/Support"
