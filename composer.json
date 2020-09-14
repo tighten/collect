@@ -30,7 +30,9 @@
     "autoload-dev": {
         "files": [
             "tests/files/Support/Carbon.php",
-            "tests/files/Support/HtmlString.php"
+            "tests/files/Support/HtmlString.php",
+            "tests/files/Support/Str.php",
+            "tests/files/Support/Stringable.php"
         ]
     },
     "scripts": {
