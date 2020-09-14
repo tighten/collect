@@ -403,6 +403,7 @@ function renameNamespace()
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|${oldNamespace}|${newNamespace}|g" {} \;
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|/\*--- OLDNAMESPACE ---\*/|${oldNamespace}|g" {} \;
     find ${newNamespaceDir} -name "*.php" -exec sed -i "" -e "s|/\*--- OLDNAMESPACE ---\*/|${oldNamespace}|g" {} \;
+    find ${newNamespaceDir} -name "*.php" -exec sed -i "" -e "s|instanceof\ Stringable|instanceof\ \\\Illuminate\\\Support\\\Stringable|g" {} \;
 
     echo "-- Reigning the renaming back in; bringing Carbon, HtmlString, Str back to Illuminate/Support"
 
@@ -411,8 +412,6 @@ function renameNamespace()
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support\\\Carbon|Illuminate\\\Support\\\Carbon|g" {} \;
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support\\\HtmlString|Illuminate\\\Support\\\HtmlString|g" {} \;
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support\\\Str|Illuminate\\\Support\\\Str|g" {} \;
-    find ${newNamespaceDir} -name "*.php" -exec sed -i "" -e "s|instanceof\ Stringable|instanceof\ \\\Illuminate\\\Support\\\Stringable|g" {} \;
-    # find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support\\\Traits\\\Macroable|Illuminate\\\Support\\\Traits\\\Macroable|g" {} \;
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Illuminate\\\Support\\\Traits\\\Macroable|Tightenco\\\Collect\\\Support\\\Traits\\\Macroable|g" {} \;
     find ${testSupportDirectory} -name "*.php" -exec sed -i "" -e "s|Illuminate\\\Support\\\Traits\\\Macroable|Tightenco\\\Collect\\\Support\\\Traits\\\Macroable|g" {} \;
 }
