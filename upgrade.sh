@@ -142,6 +142,8 @@ carriageReturn="
     testSupportClasses=(
         'Support/Carbon'
         'Support/HtmlString'
+        'Support/Str'
+        'Support/Stringable'
     )
 
     stubs=(
@@ -402,12 +404,17 @@ function renameNamespace()
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|/\*--- OLDNAMESPACE ---\*/|${oldNamespace}|g" {} \;
     find ${newNamespaceDir} -name "*.php" -exec sed -i "" -e "s|/\*--- OLDNAMESPACE ---\*/|${oldNamespace}|g" {} \;
 
-    echo "-- Reigning the renaming back in; bringing Carbon back to Illuminate/Support"
+    echo "-- Reigning the renaming back in; bringing Carbon, HtmlString, Str back to Illuminate/Support"
 
     # @todo: do this more cleanly
-    # Just in tests, fix namespaces for classes that are no longer provided in collections as of 8.0+
+    # Just in tests, fix namespaces for classes that are no longer provided in collections as of 8.0+ Illuminate\Support\Traits\Macroable, etc
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support\\\Carbon|Illuminate\\\Support\\\Carbon|g" {} \;
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support\\\HtmlString|Illuminate\\\Support\\\HtmlString|g" {} \;
+    find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support\\\Str|Illuminate\\\Support\\\Str|g" {} \;
+    find ${newNamespaceDir} -name "*.php" -exec sed -i "" -e "s|instanceof\ Stringable|instanceof\ \\\Illuminate\\\Support\\\Stringable|g" {} \;
+    # find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support\\\Traits\\\Macroable|Illuminate\\\Support\\\Traits\\\Macroable|g" {} \;
+    find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Illuminate\\\Support\\\Traits\\\Macroable|Tightenco\\\Collect\\\Support\\\Traits\\\Macroable|g" {} \;
+    find ${testSupportDirectory} -name "*.php" -exec sed -i "" -e "s|Illuminate\\\Support\\\Traits\\\Macroable|Tightenco\\\Collect\\\Support\\\Traits\\\Macroable|g" {} \;
 }
 
 ##
