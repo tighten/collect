@@ -21,7 +21,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     /**
      * The items contained in the collection.
      *
-     * @var array
+     * @var mixed[]
      */
     protected $items = [];
 
@@ -39,7 +39,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     /**
      * Create a new collection instance if the value isn't one already.
      *
-     * @param  mixed  $items
+     * @param  mixed[]  $items
      * @return static
      */
     public static function make($items = [])
@@ -50,7 +50,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
     /**
      * Get all of the items in the collection.
      *
-     * @return array
+     * @return mixed[]
      */
     public function all()
     {
@@ -61,7 +61,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
      * Get the average value of a given key.
      *
      * @param  callable|string|null  $callback
-     * @return mixed
+     * @return float|void
      */
     public function avg($callback = null)
     {
@@ -74,7 +74,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
      * Alias for the "avg" method.
      *
      * @param  callable|string|null  $callback
-     * @return mixed
+     * @return float|void
      */
     public function average($callback = null)
     {
@@ -85,7 +85,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
      * Get the median of a given key.
      *
      * @param  null $key
-     * @return mixed|null
+     * @return float|void
      */
     public function median($key = null)
     {
@@ -113,7 +113,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
      * Get the mode of a given key.
      *
      * @param  null $key
-     * @return array
+     * @return mixed[]|void
      */
     public function mode($key = null)
     {

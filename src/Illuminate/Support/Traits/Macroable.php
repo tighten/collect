@@ -10,7 +10,7 @@ trait Macroable
     /**
      * The registered string macros.
      *
-     * @var array
+     * @var callable[]
      */
     protected static $macros = [];
 
@@ -41,7 +41,7 @@ trait Macroable
      * Dynamically handle calls to the class.
      *
      * @param  string  $method
-     * @param  array   $parameters
+     * @param  mixed[]   $parameters
      * @return mixed
      *
      * @throws \BadMethodCallException
@@ -63,7 +63,7 @@ trait Macroable
      * Dynamically handle calls to the class.
      *
      * @param  string  $method
-     * @param  array   $parameters
+     * @param  mixed[]   $parameters
      * @return mixed
      *
      * @throws \BadMethodCallException

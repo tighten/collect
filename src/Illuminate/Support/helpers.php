@@ -4,29 +4,27 @@ use WPML\Collect\Support\Arr;
 use WPML\Collect\Support\Collection;
 
 if (! function_exists('wpml_collect')) {
-    /**
-     * Create a collection from the given value.
-     *
-     * @param  mixed  $value
-     * @return \WPML\Collect\Support\Collection
-     */
-    function wpml_collect($value = null)
-    {
-        return new Collection($value);
-    }
+	/**
+	 * @param mixed|null $value
+	 *
+	 * @return \WPML\Collect\Support\Collection<mixed>
+	 */
+	function wpml_collect( $value = null ) {
+		return new Collection( $value );
+	}
 }
 
 if (! function_exists('value')) {
-    /**
-     * Return the default value of the given value.
-     *
-     * @param  mixed  $value
-     * @return mixed
-     */
-    function value($value)
-    {
-        return $value instanceof Closure ? $value() : $value;
-    }
+	/**
+	 * Return the default value of the given value.
+	 *
+	 * @param mixed $value
+	 *
+	 * @return mixed
+	 */
+	function value( $value ) {
+		return $value instanceof Closure ? $value() : $value;
+	}
 }
 
 if (! function_exists('data_get')) {
@@ -34,7 +32,7 @@ if (! function_exists('data_get')) {
      * Get an item from an array or object using "dot" notation.
      *
      * @param  mixed   $target
-     * @param  string|array  $key
+     * @param  string|string[]  $key
      * @param  mixed   $default
      * @return mixed
      */
