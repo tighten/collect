@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\HigherOrderTapProxy;
 use Symfony\Component\VarDumper\VarDumper;
 
 if (! class_exists(/*--- OLDNAMESPACE ---*/\Support\Collection::class)) {
@@ -84,6 +85,26 @@ if (! class_exists(/*--- OLDNAMESPACE ---*/\Support\Collection::class)) {
             }
 
             return $target;
+        }
+    }
+
+    if (! function_exists('tap')) {
+        /**
+         * Call the given Closure with the given value then return the value.
+         *
+         * @param  mixed  $value
+         * @param  callable|null  $callback
+         * @return mixed
+         */
+        function tap($value, $callback = null)
+        {
+            if (is_null($callback)) {
+                return new HigherOrderTapProxy($value);
+            }
+
+            $callback($value);
+
+            return $value;
         }
     }
 

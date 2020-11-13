@@ -15,7 +15,7 @@
     },
     "require-dev": {
         "mockery/mockery": "^1.0",
-        "phpunit/phpunit": "^7.0",
+        "phpunit/phpunit": "^8.3",
         "nesbot/carbon": "^2.23.0"
     },
     "autoload": {
@@ -31,6 +31,7 @@
         "files": [
             "tests/files/Support/Carbon.php",
             "tests/files/Support/HtmlString.php",
+            "tests/files/Support/HigherOrderTapProxy.php",
             "tests/files/Support/Str.php",
             "tests/files/Support/Stringable.php"
         ]
