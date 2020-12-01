@@ -32,7 +32,7 @@ jobs:
           coverage: none
 
       - name: Install dependencies
-        run: composer update --prefer-stable --prefer-dist --no-interaction --no-suggest
+        run: composer update --prefer-stable --prefer-dist --no-interaction
 
       - name: Run tests
         run: bash upgrade.sh
