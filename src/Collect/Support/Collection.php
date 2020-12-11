@@ -1041,7 +1041,7 @@ class Collection implements ArrayAccess, Enumerable
         return $groups;
     }
 
-     /**
+    /**
      * Split a collection into a certain number of groups, and fill the first groups completely.
      *
      * @param  int  $numberOfGroups
