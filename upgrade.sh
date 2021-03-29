@@ -22,6 +22,10 @@ shopt -s dotglob
 
 function main()
 {
+    # a='a.b.y'
+    # echo ${a##*.}
+    # exit
+
     echo "Upgrading..."
 
     checkDependencies
@@ -122,7 +126,8 @@ carriageReturn="
     )
 
     supportTraits=(
-        'Support/Traits/Macroable'
+        'Macroable/Traits/Macroable'
+        'Support/Traits/Tappable'
     )
 
     contracts=(
@@ -283,13 +288,14 @@ function copyTraits()
         cp ${oldNamespaceDir}/${traitSrc}.php ${newNamespaceDir}/${trait}.php
     done
 
-    for trait in ${supportTraits[@]}; do
-        traitSrc="${trait/Support/Macroable}"
-        echo "Copying ${oldNamespaceDir}/${traitSrc}.php..."
+    for traitSrc in ${supportTraits[@]}; do
+        traitClassName="${traitSrc##*/}"
 
-        mkdir -p $(dirname ${newNamespaceDir}/${trait})
+        echo "Copying ${oldNamespaceDir}/${traitSrc}.php... to ${newNamespaceDir}/Support/Traits/${traitClassName}.php"
 
-        cp ${oldNamespaceDir}/${traitSrc}.php ${newNamespaceDir}/${trait}.php
+        mkdir -p $(dirname ${newNamespaceDir}/${traitClassName})
+
+        cp ${oldNamespaceDir}/${traitSrc}.php ${newNamespaceDir}/Support/Traits/${traitClassName}.php
     done
 }
 
@@ -405,7 +411,7 @@ function renameNamespace()
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|/\*--- OLDNAMESPACE ---\*/|${oldNamespace}|g" {} \;
     find ${newNamespaceDir} -name "*.php" -exec sed -i "" -e "s|/\*--- OLDNAMESPACE ---\*/|${oldNamespace}|g" {} \;
 
-   echo "-- Expand the alias for Stringable to check for Illuminate, not Tightenco, Stringable"
+    echo "-- Expand the alias for Stringable to check for Illuminate, not Tightenco, Stringable"
 
     find ${newNamespaceDir} -name "*.php" -exec sed -i "" -e "s|instanceof\ Stringable|instanceof\ \\\Illuminate\\\Support\\\Stringable|g" {} \;
 
@@ -417,6 +423,7 @@ function renameNamespace()
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support\\\HtmlString|Illuminate\\\Support\\\HtmlString|g" {} \;
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support\\\Str|Illuminate\\\Support\\\Str|g" {} \;
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Illuminate\\\Support\\\Traits\\\Macroable|Tightenco\\\Collect\\\Support\\\Traits\\\Macroable|g" {} \;
+    find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Illuminate\\\Support\\\Traits\\\Tappable|Tightenco\\\Collect\\\Support\\\Traits\\\Tappable|g" {} \;
 
     find ${testSupportDirectory} -name "HigherOrderTapProxy.php" -exec sed -i "" -e "s|Illuminate\\\Support|Tightenco\\\Collect\\\Support|g" {} \;
 }
