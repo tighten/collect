@@ -78,8 +78,8 @@ class SupportCollectionTest extends TestCase
 
         $this->assertSame('book', $data->firstWhere('material', 'paper')['type']);
         $this->assertSame('gasket', $data->firstWhere('material', 'rubber')['type']);
-        $this->assertNull($data->firstWhere('material', 'nonexistant'));
-        $this->assertNull($data->firstWhere('nonexistant', 'key'));
+        $this->assertNull($data->firstWhere('material', 'nonexistent'));
+        $this->assertNull($data->firstWhere('nonexistent', 'key'));
     }
 
     /**
@@ -541,6 +541,16 @@ class SupportCollectionTest extends TestCase
         })->all());
     }
 
+    /**
+     * @dataProvider collectionClassProvider
+     */
+    public function testContainsOneItem($collection)
+    {
+        $this->assertFalse((new $collection([]))->containsOneItem());
+        $this->assertTrue((new $collection([1]))->containsOneItem());
+        $this->assertFalse((new $collection([1, 2]))->containsOneItem());
+    }
+
     public function testIterable()
     {
         $c = new Collection(['foo']);
@@ -572,7 +582,7 @@ class SupportCollectionTest extends TestCase
 
         $c = new $collection(['id' => 1, 'first' => 'Hello', 'second' => 'World']);
         $this->assertEquals(['first' => 'Hello', 'second' => 'World'], $c->filter(function ($item, $key) {
-            return $key != 'id';
+            return $key !== 'id';
         })->all());
     }
 
@@ -766,8 +776,10 @@ class SupportCollectionTest extends TestCase
      */
     public function testWhereInstanceOf($collection)
     {
-        $c = new $collection([new stdClass, new stdClass, new $collection, new stdClass]);
+        $c = new $collection([new stdClass, new stdClass, new $collection, new stdClass, new Str]);
         $this->assertCount(3, $c->whereInstanceOf(stdClass::class));
+
+        $this->assertCount(4, $c->whereInstanceOf([stdClass::class, Str::class]));
     }
 
     /**
@@ -1643,6 +1655,22 @@ class SupportCollectionTest extends TestCase
             [],
             $data->chunk(-1)->toArray()
         );
+    }
+
+    /**
+     * @dataProvider collectionClassProvider
+     */
+    public function testSplitIn($collection)
+    {
+        $data = new $collection([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+        $data = $data->splitIn(3);
+
+        $this->assertInstanceOf($collection, $data);
+        $this->assertInstanceOf($collection, $data->first());
+        $this->assertCount(3, $data);
+        $this->assertEquals([1, 2, 3, 4], $data->get(0)->values()->toArray());
+        $this->assertEquals([5, 6, 7, 8], $data->get(1)->values()->toArray());
+        $this->assertEquals([9, 10], $data->get(2)->values()->toArray());
     }
 
     /**
@@ -3098,7 +3126,7 @@ class SupportCollectionTest extends TestCase
 
         $c = new $collection(['foo', 'bar']);
         $this->assertEquals(['foo'], $c->reject(function ($v) {
-            return $v == 'bar';
+            return $v === 'bar';
         })->values()->all());
 
         $c = new $collection(['foo', null]);
@@ -3109,12 +3137,12 @@ class SupportCollectionTest extends TestCase
 
         $c = new $collection(['foo', 'bar']);
         $this->assertEquals(['foo', 'bar'], $c->reject(function ($v) {
-            return $v == 'baz';
+            return $v === 'baz';
         })->values()->all());
 
         $c = new $collection(['id' => 1, 'primary' => 'foo', 'secondary' => 'bar']);
         $this->assertEquals(['primary' => 'foo', 'secondary' => 'bar'], $c->reject(function ($item, $key) {
-            return $key == 'id';
+            return $key === 'id';
         })->all());
     }
 
@@ -3187,7 +3215,7 @@ class SupportCollectionTest extends TestCase
             return $value < 1 && is_numeric($value);
         }));
         $this->assertFalse($c->search(function ($value) {
-            return $value == 'nope';
+            return $value === 'nope';
         }));
     }
 
@@ -3552,7 +3580,7 @@ class SupportCollectionTest extends TestCase
      */
     public function testDump($collection)
     {
-        $log = new Collection();
+        $log = new Collection;
 
         VarDumper::setHandler(function ($value) use ($log) {
             $log->add($value);
@@ -3573,6 +3601,28 @@ class SupportCollectionTest extends TestCase
         $data = new $collection([1, 2, 3]);
         $this->assertEquals(6, $data->reduce(function ($carry, $element) {
             return $carry += $element;
+        }));
+
+        $data = new $collection([
+            'foo' => 'bar',
+            'baz' => 'qux',
+        ]);
+        $this->assertSame('foobarbazqux', $data->reduce(function ($carry, $element, $key) {
+            return $carry .= $key.$element;
+        }));
+    }
+
+    /**
+     * @dataProvider collectionClassProvider
+     */
+    public function testReduceWithKeys($collection)
+    {
+        $data = new $collection([
+            'foo' => 'bar',
+            'baz' => 'qux',
+        ]);
+        $this->assertSame('foobarbazqux', $data->reduceWithKeys(function ($carry, $element, $key) {
+            return $carry .= $key.$element;
         }));
     }
 
