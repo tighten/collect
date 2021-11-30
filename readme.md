@@ -1,4 +1,4 @@
-![Run tests](https://github.com/tighten/collect/workflows/Run%20tests/badge.svg)
+[![Run tests](https://github.com/tighten/collect/workflows/Run%20tests/badge.svg)](https://github.com/tighten/collect/actions/workflows/run-tests.yml)
 
 ![](https://raw.githubusercontent.com/tighten/collect/master/collect-logo.png)
 
