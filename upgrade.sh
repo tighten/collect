@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+# Note: If you see this error on Ubuntu, don't worry; we're using a macOS-friendly sed syntax
+#       that throws errors but still works fine on Linux.
+#
+#       sed: can't read : No such file or directory
+
 ##
  # tightenco/collect upgrader script
  #
@@ -416,8 +421,6 @@ function copyTestSupportClasses()
 
         chmod 644 ${testSupportDirectory}/${class}.php
     done
-
-    testSupportClassesInExtractedCollections
 
     # @todo: do this more cleanly
     find ./tests/files -name "*.php" -exec sed -i "" -e "s|Illuminate\\\Support|/\*--- OLDNAMESPACE ---\*/\\\Support|g" {} \;
