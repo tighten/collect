@@ -4,11 +4,12 @@ namespace Tightenco\Collect\Support;
 
 use ArrayAccess;
 use ArrayIterator;
+use Tightenco\Collect\Contracts\Support\CanBeEscapedWhenCastToString;
 use Tightenco\Collect\Support\Traits\EnumeratesValues;
 use Tightenco\Collect\Support\Traits\Macroable;
 use stdClass;
 
-class Collection implements ArrayAccess, Enumerable
+class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerable
 {
     use EnumeratesValues, Macroable;
 
@@ -260,7 +261,7 @@ class Collection implements ArrayAccess, Enumerable
     /**
      * Retrieve duplicate items from the collection.
      *
-     * @param  callable|null  $callback
+     * @param  callable|string|null  $callback
      * @param  bool  $strict
      * @return static
      */
@@ -288,7 +289,7 @@ class Collection implements ArrayAccess, Enumerable
     /**
      * Retrieve duplicate items from the collection using strict comparison.
      *
-     * @param  callable|null  $callback
+     * @param  callable|string|null  $callback
      * @return static
      */
     public function duplicatesStrict($callback = null)
@@ -502,6 +503,29 @@ class Collection implements ArrayAccess, Enumerable
     }
 
     /**
+     * Determine if any of the keys exist in the collection.
+     *
+     * @param  mixed  $key
+     * @return bool
+     */
+    public function hasAny($key)
+    {
+        if ($this->isEmpty()) {
+            return false;
+        }
+
+        $keys = is_array($key) ? $key : func_get_args();
+
+        foreach ($keys as $value) {
+            if ($this->has($value)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Concatenate values of a given key as a string.
      *
      * @param  string  $value
@@ -513,10 +537,10 @@ class Collection implements ArrayAccess, Enumerable
         $first = $this->first();
 
         if (is_array($first) || (is_object($first) && ! $first instanceof \Illuminate\Support\Stringable)) {
-            return implode($glue, $this->pluck($value)->all());
+            return implode($glue ?? '', $this->pluck($value)->all());
         }
 
-        return implode($value, $this->items);
+        return implode($value ?? '', $this->items);
     }
 
     /**
@@ -784,13 +808,30 @@ class Collection implements ArrayAccess, Enumerable
     }
 
     /**
-     * Get and remove the last item from the collection.
+     * Get and remove the last N items from the collection.
      *
+     * @param  int  $count
      * @return mixed
      */
-    public function pop()
+    public function pop($count = 1)
     {
-        return array_pop($this->items);
+        if ($count === 1) {
+            return array_pop($this->items);
+        }
+
+        if ($this->isEmpty()) {
+            return new static;
+        }
+
+        $results = [];
+
+        $collectionCount = $this->count();
+
+        foreach (range(1, min($count, $collectionCount)) as $item) {
+            array_push($results, array_pop($this->items));
+        }
+
+        return new static($results);
     }
 
     /**
@@ -810,7 +851,7 @@ class Collection implements ArrayAccess, Enumerable
     /**
      * Push one or more items onto the end of the collection.
      *
-     * @param  mixed  $values [optional]
+     * @param  mixed  $values
      * @return $this
      */
     public function push(...$values)
@@ -937,13 +978,30 @@ class Collection implements ArrayAccess, Enumerable
     }
 
     /**
-     * Get and remove the first item from the collection.
+     * Get and remove the first N items from the collection.
      *
+     * @param  int  $count
      * @return mixed
      */
-    public function shift()
+    public function shift($count = 1)
     {
-        return array_shift($this->items);
+        if ($count === 1) {
+            return array_shift($this->items);
+        }
+
+        if ($this->isEmpty()) {
+            return new static;
+        }
+
+        $results = [];
+
+        $collectionCount = $this->count();
+
+        foreach (range(1, min($count, $collectionCount)) as $item) {
+            array_push($results, array_shift($this->items));
+        }
+
+        return new static($results);
     }
 
     /**
@@ -955,6 +1013,22 @@ class Collection implements ArrayAccess, Enumerable
     public function shuffle($seed = null)
     {
         return new static(Arr::shuffle($this->items, $seed));
+    }
+
+    /**
+     * Create chunks representing a "sliding window" view of the items in the collection.
+     *
+     * @param  int  $size
+     * @param  int  $step
+     * @return static
+     */
+    public function sliding($size = 2, $step = 1)
+    {
+        $chunks = floor(($this->count() - $size) / $step) + 1;
+
+        return static::times($chunks, function ($number) use ($size, $step) {
+            return $this->slice(($number - 1) * $step, $size);
+        });
     }
 
     /**
@@ -1048,6 +1122,63 @@ class Collection implements ArrayAccess, Enumerable
     public function splitIn($numberOfGroups)
     {
         return $this->chunk(ceil($this->count() / $numberOfGroups));
+    }
+
+    /**
+     * Get the first item in the collection, but only if exactly one item exists. Otherwise, throw an exception.
+     *
+     * @param  mixed  $key
+     * @param  mixed  $operator
+     * @param  mixed  $value
+     * @return mixed
+     *
+     * @throws \Tightenco\Collect\Support\ItemNotFoundException
+     * @throws \Tightenco\Collect\Support\MultipleItemsFoundException
+     */
+    public function sole($key = null, $operator = null, $value = null)
+    {
+        $filter = func_num_args() > 1
+            ? $this->operatorForWhere(...func_get_args())
+            : $key;
+
+        $items = $this->when($filter)->filter($filter);
+
+        if ($items->isEmpty()) {
+            throw new ItemNotFoundException;
+        }
+
+        if ($items->count() > 1) {
+            throw new MultipleItemsFoundException;
+        }
+
+        return $items->first();
+    }
+
+    /**
+     * Get the first item in the collection but throw an exception if no matching items exist.
+     *
+     * @param  mixed  $key
+     * @param  mixed  $operator
+     * @param  mixed  $value
+     * @return mixed
+     *
+     * @throws \Tightenco\Collect\Support\ItemNotFoundException
+     */
+    public function firstOrFail($key = null, $operator = null, $value = null)
+    {
+        $filter = func_num_args() > 1
+            ? $this->operatorForWhere(...func_get_args())
+            : $key;
+
+        $placeholder = new stdClass();
+
+        $item = $this->first($filter, $placeholder);
+
+        if ($item === $placeholder) {
+            throw new ItemNotFoundException;
+        }
+
+        return $item;
     }
 
     /**
@@ -1302,6 +1433,28 @@ class Collection implements ArrayAccess, Enumerable
         $this->items = $this->map($callback)->all();
 
         return $this;
+    }
+
+    /**
+     * Return only unique items from the collection array.
+     *
+     * @param  string|callable|null  $key
+     * @param  bool  $strict
+     * @return static
+     */
+    public function unique($key = null, $strict = false)
+    {
+        $callback = $this->valueRetriever($key);
+
+        $exists = [];
+
+        return $this->reject(function ($item, $key) use ($callback, $strict, &$exists) {
+            if (in_array($id = $callback($item, $key), $exists, $strict)) {
+                return true;
+            }
+
+            $exists[] = $id;
+        });
     }
 
     /**

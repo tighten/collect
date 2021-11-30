@@ -217,7 +217,10 @@ class Str
     public static function endsWith($haystack, $needles)
     {
         foreach ((array) $needles as $needle) {
-            if ($needle !== '' && substr($haystack, -strlen($needle)) === (string) $needle) {
+            if (
+                $needle !== '' && $needle !== null
+                && substr($haystack, -strlen($needle)) === (string) $needle
+            ) {
                 return true;
             }
         }
@@ -250,11 +253,15 @@ class Str
     {
         $patterns = Arr::wrap($pattern);
 
+        $value = (string) $value;
+
         if (empty($patterns)) {
             return false;
         }
 
         foreach ($patterns as $pattern) {
+            $pattern = (string) $pattern;
+
             // If the given value is an exact match we can of course return true right
             // from the beginning. Otherwise, we will translate asterisks and do an
             // actual pattern match against the two strings to see if they match.
@@ -388,7 +395,43 @@ class Str
     {
         $converter = new GithubFlavoredMarkdownConverter($options);
 
-        return $converter->convertToHtml($string);
+        return (string) $converter->convertToHtml($string);
+    }
+
+    /**
+     * Get the string matching the given pattern.
+     *
+     * @param  string  $pattern
+     * @param  string  $subject
+     * @return string
+     */
+    public static function match($pattern, $subject)
+    {
+        preg_match($pattern, $subject, $matches);
+
+        if (! $matches) {
+            return '';
+        }
+
+        return $matches[1] ?? $matches[0];
+    }
+
+    /**
+     * Get the string matching the given pattern.
+     *
+     * @param  string  $pattern
+     * @param  string  $subject
+     * @return \Illuminate\Support\Collection
+     */
+    public static function matchAll($pattern, $subject)
+    {
+        preg_match_all($pattern, $subject, $matches);
+
+        if (empty($matches[0])) {
+            return collect();
+        }
+
+        return collect($matches[1] ?? $matches[0]);
     }
 
     /**
@@ -492,6 +535,18 @@ class Str
     }
 
     /**
+     * Repeat the given string.
+     *
+     * @param  string  $string
+     * @param  int  $times
+     * @return string
+     */
+    public static function repeat(string $string, int $times)
+    {
+        return str_repeat($string, $times);
+    }
+
+    /**
      * Replace a given value in the string sequentially with an array.
      *
      * @param  string  $search
@@ -510,6 +565,19 @@ class Str
         }
 
         return $result;
+    }
+
+    /**
+     * Replace the given value in the given string.
+     *
+     * @param  string|string[]  $search
+     * @param  string|string[]  $replace
+     * @param  string|string[]  $subject
+     * @return string
+     */
+    public static function replace($search, $replace, $subject)
+    {
+        return str_replace($search, $replace, $subject);
     }
 
     /**
@@ -561,18 +629,16 @@ class Str
     /**
      * Remove any occurrence of the given string in the subject.
      *
-     * @param string|array<string> $search
-     * @param string $subject
-     * @param bool $caseSensitive
+     * @param  string|array<string>  $search
+     * @param  string  $subject
+     * @param  bool  $caseSensitive
      * @return string
      */
     public static function remove($search, $subject, $caseSensitive = true)
     {
-        foreach (Arr::wrap($search) as $s) {
-            $subject = $caseSensitive
-                        ? str_replace($search, '', $subject)
-                        : str_ireplace($search, '', $subject);
-        }
+        $subject = $caseSensitive
+                    ? str_replace($search, '', $subject)
+                    : str_ireplace($search, '', $subject);
 
         return $subject;
     }
@@ -611,6 +677,27 @@ class Str
     public static function title($value)
     {
         return mb_convert_case($value, MB_CASE_TITLE, 'UTF-8');
+    }
+
+    /**
+     * Convert the given string to title case for each word.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public static function headline($value)
+    {
+        $parts = explode('_', static::replace(' ', '_', $value));
+
+        if (count($parts) > 1) {
+            $parts = array_map([static::class, 'title'], $parts);
+        }
+
+        $studly = static::studly(implode($parts));
+
+        $words = preg_split('/(?=[A-Z])/', $studly, -1, PREG_SPLIT_NO_EMPTY);
+
+        return implode(' ', $words);
     }
 
     /**
@@ -754,6 +841,17 @@ class Str
     public static function ucfirst($string)
     {
         return static::upper(static::substr($string, 0, 1)).static::substr($string, 1);
+    }
+
+    /**
+     * Get the number of words a string contains.
+     *
+     * @param  string  $string
+     * @return int
+     */
+    public static function wordCount($string)
+    {
+        return str_word_count($string);
     }
 
     /**
