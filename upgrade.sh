@@ -134,6 +134,7 @@ carriageReturn="
         'Contracts/Support/Arrayable'
         'Contracts/Support/Jsonable'
         'Contracts/Support/Htmlable'
+        'Contracts/Support/CanBeEscapedWhenCastToString'
     )
 
     tests=(
@@ -142,6 +143,7 @@ carriageReturn="
         'Support/SupportMacroableTest.php'
         'Support/SupportLazyCollectionTest.php'
         'Support/SupportLazyCollectionIsLazyTest.php'
+        'Support/Concerns/CountsEnumerations.php'
     )
 
     testSupportClasses=(
@@ -150,6 +152,12 @@ carriageReturn="
         'Support/HtmlString'
         'Support/Str'
         'Support/Stringable'
+        'Support/Traits/Conditionable'
+    )
+
+    testSupportClassesInExtractedCollections=(
+        'Support/ItemNotFoundException'
+        'Support/MultipleItemsFoundException'
     )
 
     stubs=(
@@ -395,6 +403,22 @@ function copyTestSupportClasses()
         chmod 644 ${testSupportDirectory}/${class}.php
     done
 
+    for class in ${testSupportClassesInExtractedCollections[@]}; do
+        echo "Copying ${oldNamespaceDir}/${class} (from extracted Collections)..."
+
+        mkdir -p $(dirname $testSupportDirectory/$class)
+
+        # Extract these classes from Illuminate/Collections, even though they end up in
+        # the Illuminate/Support namespace
+        movedClassFilename=${class/Support/Collections}
+
+        cp ${oldNamespaceDir}/${movedClassFilename}.php ${testSupportDirectory}/$class.php
+
+        chmod 644 ${testSupportDirectory}/${class}.php
+    done
+
+    testSupportClassesInExtractedCollections
+
     # @todo: do this more cleanly
     find ./tests/files -name "*.php" -exec sed -i "" -e "s|Illuminate\\\Support|/\*--- OLDNAMESPACE ---\*/\\\Support|g" {} \;
 }
@@ -426,6 +450,8 @@ function renameNamespace()
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Illuminate\\\Support\\\Traits\\\Tappable|Tightenco\\\Collect\\\Support\\\Traits\\\Tappable|g" {} \;
 
     find ${testSupportDirectory} -name "HigherOrderTapProxy.php" -exec sed -i "" -e "s|Illuminate\\\Support|Tightenco\\\Collect\\\Support|g" {} \;
+    find ${testSupportDirectory} -name "ItemNotFoundException.php" -exec sed -i "" -e "s|Illuminate\\\Support|Tightenco\\\Collect\\\Support|g" {} \;
+    find ${testSupportDirectory} -name "MultipleItemsFoundException.php" -exec sed -i "" -e "s|Illuminate\\\Support|Tightenco\\\Collect\\\Support|g" {} \;
 }
 
 ##

@@ -33,7 +33,11 @@
             "tests/files/Support/HtmlString.php",
             "tests/files/Support/HigherOrderTapProxy.php",
             "tests/files/Support/Str.php",
-            "tests/files/Support/Stringable.php"
+            "tests/files/Support/Traits/Conditionable.php",
+            "tests/files/Support/Stringable.php",
+            "tests/files/Support/ItemNotFoundException.php",
+            "tests/files/Support/MultipleItemsFoundException.php",
+            "tests/Support/Concerns/CountsEnumerations.php"
         ]
     },
     "scripts": {
