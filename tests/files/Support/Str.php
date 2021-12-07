@@ -399,6 +399,38 @@ class Str
     }
 
     /**
+     * Masks a portion of a string with a repeated character.
+     *
+     * @param  string  $string
+     * @param  string  $character
+     * @param  int  $index
+     * @param  int|null  $length
+     * @param  string  $encoding
+     * @return string
+     */
+    public static function mask($string, $character, $index, $length = null, $encoding = 'UTF-8')
+    {
+        if ($character === '') {
+            return $string;
+        }
+
+        if (is_null($length) && PHP_MAJOR_VERSION < 8) {
+            $length = mb_strlen($string, $encoding);
+        }
+
+        $segment = mb_substr($string, $index, $length, $encoding);
+
+        if ($segment === '') {
+            return $string;
+        }
+
+        $start = mb_substr($string, 0, mb_strpos($string, $segment, 0, $encoding), $encoding);
+        $end = mb_substr($string, mb_strpos($string, $segment, 0, $encoding) + mb_strlen($segment, $encoding));
+
+        return $start.str_repeat(mb_substr($character, 0, 1, $encoding), mb_strlen($segment, $encoding)).$end;
+    }
+
+    /**
      * Get the string matching the given pattern.
      *
      * @param  string  $pattern
@@ -489,7 +521,7 @@ class Str
      * Get the plural form of an English word.
      *
      * @param  string  $value
-     * @param  int  $count
+     * @param  int|array|\Countable  $count
      * @return string
      */
     public static function plural($value, $count = 2)
@@ -501,7 +533,7 @@ class Str
      * Pluralize the last word of an English, studly caps case string.
      *
      * @param  string  $value
-     * @param  int  $count
+     * @param  int|array|\Countable  $count
      * @return string
      */
     public static function pluralStudly($value, $count = 2)
@@ -641,6 +673,17 @@ class Str
                     : str_ireplace($search, '', $subject);
 
         return $subject;
+    }
+
+    /**
+     * Reverse the given string.
+     *
+     * @param  string  $value
+     * @return string
+     */
+    public static function reverse(string $value)
+    {
+        return implode(array_reverse(mb_str_split($value)));
     }
 
     /**
