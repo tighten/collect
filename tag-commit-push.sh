@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Todo: Don't Use this; we need each to get pushed in a PR so we get the CI tests running on them.
+
 function validateVersion()
 {
     echo ""
