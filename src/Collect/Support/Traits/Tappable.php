@@ -8,7 +8,7 @@ trait Tappable
      * Call the given Closure with this instance then return the instance.
      *
      * @param  callable|null  $callback
-     * @return $this|\Tightenco\Collect\Support\HigherOrderTapProxy
+     * @return mixed
      */
     public function tap($callback = null)
     {

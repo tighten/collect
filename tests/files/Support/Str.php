@@ -521,7 +521,7 @@ class Str
      * Get the plural form of an English word.
      *
      * @param  string  $value
-     * @param  int|array|\Countable  $count
+     * @param  int  $count
      * @return string
      */
     public static function plural($value, $count = 2)
@@ -533,7 +533,7 @@ class Str
      * Pluralize the last word of an English, studly caps case string.
      *
      * @param  string  $value
-     * @param  int|array|\Countable  $count
+     * @param  int  $count
      * @return string
      */
     public static function pluralStudly($value, $count = 2)
@@ -673,17 +673,6 @@ class Str
                     : str_ireplace($search, '', $subject);
 
         return $subject;
-    }
-
-    /**
-     * Reverse the given string.
-     *
-     * @param  string  $value
-     * @return string
-     */
-    public static function reverse(string $value)
-    {
-        return implode(array_reverse(mb_str_split($value)));
     }
 
     /**

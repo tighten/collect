@@ -2,7 +2,6 @@
 
 namespace Tightenco\Collect\Tests\Support;
 
-use BadMethodCallException;
 use Tightenco\Collect\Support\Traits\Macroable;
 use PHPUnit\Framework\TestCase;
 
@@ -73,23 +72,6 @@ class SupportMacroableTest extends TestCase
 
         TestMacroable::mixin(new TestMixin);
         $this->assertSame('foo', $instance->methodThree());
-    }
-
-    public function testFlushMacros()
-    {
-        TestMacroable::macro('flushMethod', function () {
-            return 'flushMethod';
-        });
-
-        $instance = new TestMacroable;
-
-        $this->assertSame('flushMethod', $instance->flushMethod());
-
-        TestMacroable::flushMacros();
-
-        $this->expectException(BadMethodCallException::class);
-
-        $instance->flushMethod();
     }
 }
 
