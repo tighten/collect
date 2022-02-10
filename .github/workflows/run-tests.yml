@@ -1,6 +1,9 @@
 name: Run tests
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [laravel-9-ongoing, laravel-8-ongoing]
+  pull_request:
 
 jobs:
   tests:
