@@ -1217,6 +1217,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
      *
      * @return array
      */
+	#[\ReturnTypeWillChange]
     public function jsonSerialize()
     {
         return array_map(function ($value) {
@@ -1248,6 +1249,7 @@ class Collection implements ArrayAccess, Arrayable, Countable, IteratorAggregate
      *
      * @return \ArrayIterator
      */
+	#[\ReturnTypeWillChange]
     public function getIterator()
     {
         return new ArrayIterator($this->items);
