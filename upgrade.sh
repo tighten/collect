@@ -122,7 +122,7 @@ carriageReturn="
         'Support/Collection'
         'Support/Enumerable'
         'Support/HigherOrderCollectionProxy'
-        'Support/HigherOrderWhenProxy'
+        'Support/Conditionable/HigherOrderWhenProxy'
         'Support/LazyCollection'
     )
 
@@ -131,6 +131,7 @@ carriageReturn="
     )
 
     supportTraits=(
+        'Conditionable/Traits/Conditionable'
         'Macroable/Traits/Macroable'
         'Support/Traits/Tappable'
     )
@@ -157,7 +158,6 @@ carriageReturn="
         'Support/HtmlString'
         'Support/Str'
         'Support/Stringable'
-        'Support/Traits/Conditionable'
     )
 
     testSupportClassesInExtractedCollections=(
@@ -255,7 +255,7 @@ function extractZip()
  #
 function copyClasses()
 {
-    echo "-- Copying classes and contracts..."
+    echo "-- Copying classes ..."
 
     for class in ${classes[@]}; do
         classSrc="${class/Support/Collections}"
@@ -366,7 +366,7 @@ function getCurrentVersionFromGitHub()
     echo Getting current version from $repository...
 
     if [ -z "$requestedVersion" ]; then
-        collectionVersion=$(git ls-remote $repository --tags  v8\* | grep tags/ | grep -v {} | cut -d \/ -f 3 | cut -d v -f 2  | grep -v RC | grep -vi beta | sort -t. -k 1,1n -k 2,2n -k 3,3n| tail -1)
+        collectionVersion=$(git ls-remote $repository --tags  v9.0.0\* | grep tags/ | grep -v {} | cut -d \/ -f 3 | cut -d v -f 2  | grep -v RC | grep -vi beta | sort -t. -k 1,1n -k 2,2n -k 3,3n| tail -1)
     else
         collectionVersion=$requestedVersion
     fi
@@ -449,6 +449,7 @@ function renameNamespace()
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support\\\Carbon|Illuminate\\\Support\\\Carbon|g" {} \;
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support\\\HtmlString|Illuminate\\\Support\\\HtmlString|g" {} \;
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support\\\Str|Illuminate\\\Support\\\Str|g" {} \;
+    find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Illuminate\\\Support\\\Traits\\\Conditionable|Tightenco\\\Collect\\\Support\\\Traits\\\Conditionable|g" {} \;
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Illuminate\\\Support\\\Traits\\\Macroable|Tightenco\\\Collect\\\Support\\\Traits\\\Macroable|g" {} \;
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Illuminate\\\Support\\\Traits\\\Tappable|Tightenco\\\Collect\\\Support\\\Traits\\\Tappable|g" {} \;
 
