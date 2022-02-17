@@ -122,8 +122,11 @@ carriageReturn="
         'Support/Collection'
         'Support/Enumerable'
         'Support/HigherOrderCollectionProxy'
-        'Support/HigherOrderWhenProxy'
         'Support/LazyCollection'
+    )
+
+    classesNotInSupport=(
+        'Conditionable/HigherOrderWhenProxy'
     )
 
     traits=(
@@ -131,6 +134,7 @@ carriageReturn="
     )
 
     supportTraits=(
+        'Conditionable/Traits/Conditionable'
         'Macroable/Traits/Macroable'
         'Support/Traits/Tappable'
     )
@@ -157,7 +161,6 @@ carriageReturn="
         'Support/HtmlString'
         'Support/Str'
         'Support/Stringable'
-        'Support/Traits/Conditionable'
     )
 
     testSupportClassesInExtractedCollections=(
@@ -255,9 +258,20 @@ function extractZip()
  #
 function copyClasses()
 {
-    echo "-- Copying classes and contracts..."
+    echo "-- Copying classes ..."
 
     for class in ${classes[@]}; do
+        classSrc="${class/Support/Collections}"
+        echo "Copying ${oldNamespaceDir}/${classSrc}.php..."
+
+        mkdir -p $(dirname ${newNamespaceDir}/${class}.php)
+
+        cp ${oldNamespaceDir}/${classSrc}.php $newNamespaceDir/$class.php
+
+        chmod 644 ${newNamespaceDir}/${class}.php
+    done
+
+    for class in ${classesNotInSupport[@]}; do
         classSrc="${class/Support/Collections}"
         echo "Copying ${oldNamespaceDir}/${classSrc}.php..."
 
@@ -366,7 +380,7 @@ function getCurrentVersionFromGitHub()
     echo Getting current version from $repository...
 
     if [ -z "$requestedVersion" ]; then
-        collectionVersion=$(git ls-remote $repository --tags  v8\* | grep tags/ | grep -v {} | cut -d \/ -f 3 | cut -d v -f 2  | grep -v RC | grep -vi beta | sort -t. -k 1,1n -k 2,2n -k 3,3n| tail -1)
+        collectionVersion=$(git ls-remote $repository --tags  v9.0.0\* | grep tags/ | grep -v {} | cut -d \/ -f 3 | cut -d v -f 2  | grep -v RC | grep -vi beta | sort -t. -k 1,1n -k 2,2n -k 3,3n| tail -1)
     else
         collectionVersion=$requestedVersion
     fi
@@ -438,6 +452,10 @@ function renameNamespace()
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|/\*--- OLDNAMESPACE ---\*/|${oldNamespace}|g" {} \;
     find ${newNamespaceDir} -name "*.php" -exec sed -i "" -e "s|/\*--- OLDNAMESPACE ---\*/|${oldNamespace}|g" {} \;
 
+    # rename the namespaces of Conditional
+    find ${newNamespaceDir} -name "*.php" -exec sed -i "" -e "s|Support\\\HigherOrderWhenProxy|Conditionable\\\HigherOrderWhenProxy|g" {} \;
+    find ${newNamespaceDir} -name "HigherOrderWhenProxy.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support|Tightenco\\\Collect\\\Conditionable|g" {} \;
+
     echo "-- Expand the alias for Stringable to check for Illuminate, not Tightenco, Stringable"
 
     find ${newNamespaceDir} -name "*.php" -exec sed -i "" -e "s|instanceof\ Stringable|instanceof\ \\\Illuminate\\\Support\\\Stringable|g" {} \;
@@ -449,6 +467,7 @@ function renameNamespace()
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support\\\Carbon|Illuminate\\\Support\\\Carbon|g" {} \;
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support\\\HtmlString|Illuminate\\\Support\\\HtmlString|g" {} \;
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support\\\Str|Illuminate\\\Support\\\Str|g" {} \;
+    find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Illuminate\\\Support\\\Traits\\\Conditionable|Tightenco\\\Collect\\\Support\\\Traits\\\Conditionable|g" {} \;
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Illuminate\\\Support\\\Traits\\\Macroable|Tightenco\\\Collect\\\Support\\\Traits\\\Macroable|g" {} \;
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|Illuminate\\\Support\\\Traits\\\Tappable|Tightenco\\\Collect\\\Support\\\Traits\\\Tappable|g" {} \;
 

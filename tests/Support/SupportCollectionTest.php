@@ -651,9 +651,9 @@ class SupportCollectionTest extends TestCase
     public function testToJsonEncodesTheJsonSerializeResult($collection)
     {
         $c = $this->getMockBuilder($collection)->onlyMethods(['jsonSerialize'])->getMock();
-        $c->expects($this->once())->method('jsonSerialize')->willReturn('foo');
+        $c->expects($this->once())->method('jsonSerialize')->willReturn(['foo']);
         $results = $c->toJson();
-        $this->assertJsonStringEqualsJsonString(json_encode('foo'), $results);
+        $this->assertJsonStringEqualsJsonString(json_encode(['foo']), $results);
     }
 
     /**
@@ -662,9 +662,9 @@ class SupportCollectionTest extends TestCase
     public function testCastingToStringJsonEncodesTheToArrayResult($collection)
     {
         $c = $this->getMockBuilder($collection)->onlyMethods(['jsonSerialize'])->getMock();
-        $c->expects($this->once())->method('jsonSerialize')->willReturn('foo');
+        $c->expects($this->once())->method('jsonSerialize')->willReturn(['foo']);
 
-        $this->assertJsonStringEqualsJsonString(json_encode('foo'), (string) $c);
+        $this->assertJsonStringEqualsJsonString(json_encode(['foo']), (string) $c);
     }
 
     public function testOffsetAccess()
@@ -1359,7 +1359,7 @@ class SupportCollectionTest extends TestCase
     public function testDiffUsingWithCollection($collection)
     {
         $c = new $collection(['en_GB', 'fr', 'HR']);
-        // demonstrate that diffKeys wont support case insensitivity
+        // demonstrate that diffKeys won't support case insensitivity
         $this->assertEquals(['en_GB', 'fr', 'HR'], $c->diff(new $collection(['en_gb', 'hr']))->values()->toArray());
         // allow for case insensitive difference
         $this->assertEquals(['fr'], $c->diffUsing(new $collection(['en_gb', 'hr']), 'strcasecmp')->values()->toArray());
@@ -1400,7 +1400,7 @@ class SupportCollectionTest extends TestCase
     {
         $c1 = new $collection(['id' => 1, 'first_word' => 'Hello']);
         $c2 = new $collection(['ID' => 123, 'foo_bar' => 'Hello']);
-        // demonstrate that diffKeys wont support case insensitivity
+        // demonstrate that diffKeys won't support case insensitivity
         $this->assertEquals(['id' => 1, 'first_word' => 'Hello'], $c1->diffKeys($c2)->all());
         // allow for case insensitive difference
         $this->assertEquals(['first_word' => 'Hello'], $c1->diffKeysUsing($c2, 'strcasecmp')->all());
@@ -2388,7 +2388,7 @@ class SupportCollectionTest extends TestCase
         // Foo() macro : unique values starting with A
         $collection::macro('foo', function () {
             return $this->filter(function ($item) {
-                return strpos($item, 'a') === 0;
+                return str_starts_with($item, 'a');
             })
                 ->unique()
                 ->values();
@@ -3966,20 +3966,6 @@ class SupportCollectionTest extends TestCase
     /**
      * @dataProvider collectionClassProvider
      */
-    public function testReduceWithKeys($collection)
-    {
-        $data = new $collection([
-            'foo' => 'bar',
-            'baz' => 'qux',
-        ]);
-        $this->assertSame('foobarbazqux', $data->reduceWithKeys(function ($carry, $element, $key) {
-            return $carry .= $key.$element;
-        }));
-    }
-
-    /**
-     * @dataProvider collectionClassProvider
-     */
     public function testReduceSpread($collection)
     {
         $data = new $collection([-1, 0, 1, 2, 3, 4, 5]);
@@ -4556,10 +4542,13 @@ class SupportCollectionTest extends TestCase
         $data = new $collection([1, 2, 3]);
 
         $fromTap = [];
-        $data = $data->tap(function ($data) use (&$fromTap) {
+        $tappedInstance = null;
+        $data = $data->tap(function ($data) use (&$fromTap, &$tappedInstance) {
             $fromTap = $data->slice(0, 1)->toArray();
+            $tappedInstance = $data;
         });
 
+        $this->assertSame($data, $tappedInstance);
         $this->assertSame([1], $fromTap);
         $this->assertSame([1, 2, 3], $data->toArray());
     }
@@ -4609,8 +4598,8 @@ class SupportCollectionTest extends TestCase
     {
         $data = new $collection(['michael', 'tom']);
 
-        $data = $data->whenEmpty(function ($collection) {
-            return $data->concat(['adam']);
+        $data = $data->whenEmpty(function () {
+            throw new Exception('whenEmpty() should not trigger on a collection with items');
         });
 
         $this->assertSame(['michael', 'tom'], $data->toArray());
@@ -4676,6 +4665,54 @@ class SupportCollectionTest extends TestCase
         });
 
         $this->assertSame(['michael', 'tom', 'adam'], $data->toArray());
+    }
+
+    /**
+     * @dataProvider collectionClassProvider
+     */
+    public function testHigherOrderWhenAndUnless($collection)
+    {
+        $data = new $collection(['michael', 'tom']);
+
+        $data = $data->when(true)->concat(['chris']);
+
+        $this->assertSame(['michael', 'tom', 'chris'], $data->toArray());
+
+        $data = $data->when(false)->concat(['adam']);
+
+        $this->assertSame(['michael', 'tom', 'chris'], $data->toArray());
+
+        $data = $data->unless(false)->concat(['adam']);
+
+        $this->assertSame(['michael', 'tom', 'chris', 'adam'], $data->toArray());
+
+        $data = $data->unless(true)->concat(['bogdan']);
+
+        $this->assertSame(['michael', 'tom', 'chris', 'adam'], $data->toArray());
+    }
+
+    /**
+     * @dataProvider collectionClassProvider
+     */
+    public function testHigherOrderWhenAndUnlessWithProxy($collection)
+    {
+        $data = new $collection(['michael', 'tom']);
+
+        $data = $data->when->contains('michael')->concat(['chris']);
+
+        $this->assertSame(['michael', 'tom', 'chris'], $data->toArray());
+
+        $data = $data->when->contains('missing')->concat(['adam']);
+
+        $this->assertSame(['michael', 'tom', 'chris'], $data->toArray());
+
+        $data = $data->unless->contains('missing')->concat(['adam']);
+
+        $this->assertSame(['michael', 'tom', 'chris', 'adam'], $data->toArray());
+
+        $data = $data->unless->contains('adam')->concat(['bogdan']);
+
+        $this->assertSame(['michael', 'tom', 'chris', 'adam'], $data->toArray());
     }
 
     /**
@@ -5041,26 +5078,22 @@ class TestArrayAccessImplementation implements ArrayAccess
         $this->arr = $arr;
     }
 
-    #[\ReturnTypeWillChange]
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->arr[$offset]);
     }
 
-    #[\ReturnTypeWillChange]
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->arr[$offset];
     }
 
-    #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->arr[$offset] = $value;
     }
 
-    #[\ReturnTypeWillChange]
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->arr[$offset]);
     }
