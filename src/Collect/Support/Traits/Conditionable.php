@@ -3,7 +3,7 @@
 namespace Tightenco\Collect\Support\Traits;
 
 use Closure;
-use Tightenco\Collect\Support\HigherOrderWhenProxy;
+use Tightenco\Collect\Conditionable\HigherOrderWhenProxy;
 
 trait Conditionable
 {

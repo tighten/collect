@@ -122,8 +122,11 @@ carriageReturn="
         'Support/Collection'
         'Support/Enumerable'
         'Support/HigherOrderCollectionProxy'
-        'Support/Conditionable/HigherOrderWhenProxy'
         'Support/LazyCollection'
+    )
+
+    classesNotInSupport=(
+        'Conditionable/HigherOrderWhenProxy'
     )
 
     traits=(
@@ -258,6 +261,17 @@ function copyClasses()
     echo "-- Copying classes ..."
 
     for class in ${classes[@]}; do
+        classSrc="${class/Support/Collections}"
+        echo "Copying ${oldNamespaceDir}/${classSrc}.php..."
+
+        mkdir -p $(dirname ${newNamespaceDir}/${class}.php)
+
+        cp ${oldNamespaceDir}/${classSrc}.php $newNamespaceDir/$class.php
+
+        chmod 644 ${newNamespaceDir}/${class}.php
+    done
+
+    for class in ${classesNotInSupport[@]}; do
         classSrc="${class/Support/Collections}"
         echo "Copying ${oldNamespaceDir}/${classSrc}.php..."
 
@@ -437,6 +451,10 @@ function renameNamespace()
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|${oldNamespace}|${newNamespace}|g" {} \;
     find ${testsDir} -name "*.php" -exec sed -i "" -e "s|/\*--- OLDNAMESPACE ---\*/|${oldNamespace}|g" {} \;
     find ${newNamespaceDir} -name "*.php" -exec sed -i "" -e "s|/\*--- OLDNAMESPACE ---\*/|${oldNamespace}|g" {} \;
+
+    # rename the namespaces of Conditional
+    find ${newNamespaceDir} -name "*.php" -exec sed -i "" -e "s|Support\\\HigherOrderWhenProxy|Conditionable\\\HigherOrderWhenProxy|g" {} \;
+    find ${newNamespaceDir} -name "HigherOrderWhenProxy.php" -exec sed -i "" -e "s|Tightenco\\\Collect\\\Support|Tightenco\\\Collect\\\Conditionable|g" {} \;
 
     echo "-- Expand the alias for Stringable to check for Illuminate, not Tightenco, Stringable"
 
