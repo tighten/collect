@@ -715,7 +715,7 @@ trait EnumeratesValues
     /**
      * Pass the collection into a new class.
      *
-     * @param  string-class  $class
+     * @param  class-string  $class
      * @return mixed
      */
     public function pipeInto($class)
@@ -745,7 +745,7 @@ trait EnumeratesValues
      * @template TReduceInitial
      * @template TReduceReturnType
      *
-     * @param  callable(TReduceInitial|TReduceReturnType, TValue): TReduceReturnType  $callback
+     * @param  callable(TReduceInitial|TReduceReturnType, TValue, TKey): TReduceReturnType  $callback
      * @param  TReduceInitial  $initial
      * @return TReduceReturnType
      */
