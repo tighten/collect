@@ -586,7 +586,7 @@ class LazyCollection implements CanBeEscapedWhenCastToString, Enumerable
     /**
      * Concatenate values of a given key as a string.
      *
-     * @param  string  $value
+     * @param  callable|string  $value
      * @param  string|null  $glue
      * @return string
      */
@@ -861,7 +861,7 @@ class LazyCollection implements CanBeEscapedWhenCastToString, Enumerable
     /**
      * Get the items with the specified keys.
      *
-     * @param  \Tightenco\Collect\Support\Enumerable<array-key, TKey>|array<array-key, TKey>  $keys
+     * @param  \Tightenco\Collect\Support\Enumerable<array-key, TKey>|array<array-key, TKey>|string  $keys
      * @return static
      */
     public function only($keys)
