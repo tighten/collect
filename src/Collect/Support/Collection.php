@@ -577,12 +577,16 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Concatenate values of a given key as a string.
      *
-     * @param  string  $value
+     * @param  callable|string  $value
      * @param  string|null  $glue
      * @return string
      */
     public function implode($value, $glue = null)
     {
+        if ($this->useAsCallable($value)) {
+            return implode($glue ?? '', $this->map($value)->all());
+        }
+
         $first = $this->first();
 
         if (is_array($first) || (is_object($first) && ! $first instanceof \Illuminate\Support\Stringable)) {
@@ -852,7 +856,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
     /**
      * Get the items with the specified keys.
      *
-     * @param  \Tightenco\Collect\Support\Enumerable<array-key, TKey>|array<array-key, TKey>  $keys
+     * @param  \Tightenco\Collect\Support\Enumerable<array-key, TKey>|array<array-key, TKey>|string  $keys
      * @return static
      */
     public function only($keys)
