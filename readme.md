@@ -1,6 +1,6 @@
+![](https://raw.githubusercontent.com/tighten/collect/master/collect-logo.png)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/tightenco/collect.svg?style=flat-square)](https://packagist.org/packages/tightenco/collect)
 [![Total Downloads](https://img.shields.io/packagist/dt/tightenco/collect.svg?style=flat-square)](https://packagist.org/packages/tightenco/collect)
-![](https://raw.githubusercontent.com/tighten/collect/master/collect-logo.png)
 [![Build Status](https://github.com/tighten/collect/workflows/Run%20tests/badge.svg)](https://github.com/tighten/collect/actions/workflows/run-tests.yml)
 
 # Collect - Illuminate Collections
