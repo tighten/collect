@@ -1,4 +1,4 @@
-![](https://raw.githubusercontent.com/tighten/collect/master/collect-logo.png)
+![Tighten Collect Logo Banner](https://raw.githubusercontent.com/tighten/collect/master/collect-logo.png)
 
 # Collect - Illuminate Collections
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/tightenco/collect.svg?style=flat-square)](https://packagist.org/packages/tightenco/collect)
