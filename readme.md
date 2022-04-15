@@ -1,8 +1,9 @@
-[![Run tests](https://github.com/tighten/collect/workflows/Run%20tests/badge.svg)](https://github.com/tighten/collect/actions/workflows/run-tests.yml)
-
-![](https://raw.githubusercontent.com/tighten/collect/master/collect-logo.png)
+![Tighten Collect Logo Banner](https://raw.githubusercontent.com/tighten/collect/master/collect-logo.png)
 
 # Collect - Illuminate Collections
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/tightenco/collect.svg?style=flat-square)](https://packagist.org/packages/tightenco/collect)
+[![Total Downloads](https://img.shields.io/packagist/dt/tightenco/collect.svg?style=flat-square)](https://packagist.org/packages/tightenco/collect)
+[![Build Status](https://github.com/tighten/collect/workflows/Run%20tests/badge.svg)](https://github.com/tighten/collect/actions/workflows/run-tests.yml)
 
 ## Deprecated: With the separation of [Illuminate's Collections package](https://packagist.org/packages/illuminate/collections), Collect is no longer necessary :tada: . We will maintain it for the 8.0 and 9.0 releases of Laravel for the convenience of package maintainers, and will stop mirroring new major versions after 9.0, but keep the existing package here for continued support.
 
