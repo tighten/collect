@@ -2,6 +2,7 @@
 
 namespace Tightenco\Collect\Support;
 
+use ArgumentCountError;
 use ArrayAccess;
 use Tightenco\Collect\Support\Traits\Macroable;
 use InvalidArgumentException;
@@ -458,7 +459,7 @@ class Arr
      * Key an associative array by a field or using a callback.
      *
      * @param  array  $array
-     * @param  callable|array|string
+     * @param  callable|array|string  $keyBy
      * @return array
      */
     public static function keyBy($array, $keyBy)
@@ -555,7 +556,11 @@ class Arr
     {
         $keys = array_keys($array);
 
-        $items = array_map($callback, $array, $keys);
+        try {
+            $items = array_map($callback, $array, $keys);
+        } catch (ArgumentCountError) {
+            $items = array_map($callback, $array);
+        }
 
         return array_combine($keys, $items);
     }
